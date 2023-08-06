@@ -11,3 +11,8 @@ const routes: Array<RouteObject> = [
     path: ''
   },
 ]
+
+type Router = ReturnType<typeof createBrowserRouter>
+const router: Router = createHashRouter(routes)
+
+export default router

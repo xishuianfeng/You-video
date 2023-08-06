@@ -1,9 +1,7 @@
+import { FC, PropsWithChildren } from "react"
 
-
-function App(): JSX.Element {
-  return (
-    <div></div>
-  )
+const App: FC<PropsWithChildren> = ({ children }) => {
+  return <div id="container">{children}</div>
 }
 
 export default App

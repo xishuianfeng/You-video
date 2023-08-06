@@ -37,3 +37,5 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
     </div>
   )
 }
+
+export default NavigationBar
