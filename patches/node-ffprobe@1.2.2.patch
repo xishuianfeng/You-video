@@ -1,0 +1,27 @@
+diff --git a/.npmignore b/.npmignore
+deleted file mode 100644
+index c1c9f4dc4be649d2be5c7c93374877e3fa512505..0000000000000000000000000000000000000000
+diff --git a/package.json b/package.json
+index 8ebe8cb32feb3e9eb0867ea33b3c11fc91693453..c5a6a89447b182fa4845e5e18c7ae7ae331abc42 100644
+--- a/package.json
++++ b/package.json
+@@ -2,11 +2,16 @@
+   "name": "node-ffprobe",
+   "version": "1.2.2",
+   "description": "NodeJS wrapper around ffprobe",
+-  "keywords": ["ffprobe", "id3"],
++  "keywords": [
++    "ffprobe",
++    "id3"
++  ],
+   "repository": "git://github.com/ListenerApproved/node-ffprobe.git",
+   "author": "Thomas Quick <thomas@listenerapproved.com> (http://listenerapproved.com)",
+   "main": "index",
+   "contributors": [],
+-  "dependencies": [],
+-  "engines": { "node": ">= 0.6.0" }
++  "dependencies": {},
++  "engines": {
++    "node": ">= 0.6.0"
++  }
+ }
