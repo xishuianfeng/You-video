@@ -11,7 +11,18 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
-      123
+
+
+      <button
+        onClick={async () => {
+          console.log(window.api);
+          const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
+          if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
+
+          }
+        }}>
+        选择文件夹
+      </button>
     </div>
   )
 }

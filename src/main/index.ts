@@ -1,7 +1,21 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import ipcMiddleware from '@main/middlewares/ipc'
+import { AppMiddleware } from './middlewares/types'
+import localFileIpc from './ipc-events/localFile'
+
+
+const applyMiddleware = ({ apply, when }: AppMiddleware) => {
+  if (is.dev && (when === 'dev' || when === 'all')) {
+    apply()
+  } else if (!is.dev && (when === 'production' || when === 'all')) {
+    apply()
+  }
+}
+
+applyMiddleware(ipcMiddleware)
 
 function createWindow(): void {
   // Create the browser window.
@@ -39,6 +53,7 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -57,6 +72,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
