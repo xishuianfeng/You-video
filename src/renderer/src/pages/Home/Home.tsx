@@ -3,11 +3,13 @@ import './Home.scss'
 import { useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
+import useSystemInfoStore from '@renderer/store/systemInfoStore'
 
 interface IProps { }
 
 const Home: React.FunctionComponent<IProps> = (props) => {
-
+  const navigator = useNavigate()
+  const systemInfoStore = useSystemInfoStore()
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
@@ -23,6 +25,14 @@ const Home: React.FunctionComponent<IProps> = (props) => {
         }}>
         选择文件夹
       </button>
+
+      {systemInfoStore.isDev && (
+        <button
+        >
+          打开db文件
+        </button>
+      )}
+
     </div>
   )
 }

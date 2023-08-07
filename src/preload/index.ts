@@ -1,9 +1,11 @@
 import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { electronAPI, ElectronAPI } from '@electron-toolkit/preload'
 import fileIpc from './localFile'
+import systemInfoIpc from './systemInfoIpc'
 // Custom APIs for renderer
 const api = {
-  fileIpc
+  fileIpc,
+  systemInfoIpc,
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
@@ -22,4 +24,11 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 
+}
+
+declare global {
+  interface Window {
+    api: typeof api
+    electron: ElectronAPI
+  }
 }

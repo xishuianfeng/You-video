@@ -1,6 +1,7 @@
 import { app, dialog } from 'electron'
 import type { AppMiddleware } from './types'
 import localFileIpc from '@main/ipc-events/localFile'
+import systemInfoIpc from '@main/ipc-events/systemInfo'
 
 const ipcMiddleware: AppMiddleware = {
   when: 'all',
@@ -19,6 +20,11 @@ const ipcMiddleware: AppMiddleware = {
 
       })
     })
+
+    systemInfoIpc.onPlatFrom((_data, _win) => {
+      return process.platform
+    })
+
   }
 }
 
