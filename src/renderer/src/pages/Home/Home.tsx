@@ -28,7 +28,9 @@ const Home: React.FunctionComponent<IProps> = (props) => {
 
       {systemInfoStore.isDev && (
         <button
-        >
+          onClick={() => {
+            window.api.fileIpc.emitRevealDbfile()
+          }}>
           打开db文件
         </button>
       )}

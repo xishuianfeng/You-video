@@ -1,7 +1,8 @@
-import { app, dialog } from 'electron'
+import { app, dialog, shell } from 'electron'
 import type { AppMiddleware } from './types'
 import localFileIpc from '@main/ipc-events/localFile'
 import systemInfoIpc from '@main/ipc-events/systemInfo'
+import { appConfigDbPath } from '@main/untls/lowdb'
 
 const ipcMiddleware: AppMiddleware = {
   when: 'all',
@@ -18,6 +19,10 @@ const ipcMiddleware: AppMiddleware = {
         const folderPath = filePaths[0]
         console.log(folderPath);
 
+      })
+
+      localFileIpc.reveralDbFile(async () => {
+        shell.showItemInFolder(appConfigDbPath)
       })
     })
 
