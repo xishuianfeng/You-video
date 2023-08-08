@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import useSystemInfoStore from '@renderer/store/systemInfoStore'
-import usePlaylistStore from '@renderer/store/playlist'
+import usePlaylistStore from '@renderer/store/playlistStore'
 
 interface IProps { }
 
@@ -23,6 +23,10 @@ const Home: React.FunctionComponent<IProps> = (props) => {
       <main className='playlists'>
         {playlistStore.playlistLocations.map((location) => {
           const { folderPath } = location
+          console.log(location);
+          console.log(folderPath);
+
+
           return (
             <article
               className='playlist'
@@ -38,10 +42,14 @@ const Home: React.FunctionComponent<IProps> = (props) => {
                   className='delete-button'
                   onClick={async (event) => {
                     event.stopPropagation()
-                    if (folderPath) {
+                    if (!folderPath) {
                       return
                     }
-
+                    await window.api.fileIpc.emitDeletePlaylistLocation(location)
+                    const { playlistLocations: latestPlaylistLocations } = await window.api.fileIpc.emitGetPlaylistLocations()
+                    playlistStore.setPlaylistLocations(
+                      latestPlaylistLocations
+                    )
                   }}>
                   删除
                 </button>

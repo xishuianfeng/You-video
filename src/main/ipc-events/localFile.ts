@@ -25,7 +25,7 @@ const getPlaylistLocations = async (
     win?: BrowserWindow
   ) => Promise<FileIpc.GetPlaylistsRes>
 ) => {
-  return ipcMain.answerRenderer('get-playlist-location', callback)
+  return ipcMain.answerRenderer('get-playlists-location', callback)
 }
 
 const deletePlaylistLocation = async (
