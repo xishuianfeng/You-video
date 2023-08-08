@@ -19,9 +19,29 @@ const reveralDbFile = async (
   return ipcMain.answerRenderer('reveral-db-file', callback)
 }
 
+const getPlaylistLocations = async (
+  callback: (
+    data: FileIpc.GetPlaylistsReq,
+    win?: BrowserWindow
+  ) => Promise<FileIpc.GetPlaylistsRes>
+) => {
+  return ipcMain.answerRenderer('get-playlist-location', callback)
+}
+
+const deletePlaylistLocation = async (
+  callback: (
+    data: FileIpc.DeletePlaylistLocationReq,
+    win?: BrowserWindow
+  ) => Promise<FileIpc.DeletePlaylistLocationRes>
+) => {
+  return ipcMain.answerRenderer('delete-playlist-location', callback)
+}
+
 const localFileIpc = {
   onAddLocalFolder,
-  reveralDbFile
+  reveralDbFile,
+  getPlaylistLocations,
+  deletePlaylistLocation
 }
 
 export default localFileIpc

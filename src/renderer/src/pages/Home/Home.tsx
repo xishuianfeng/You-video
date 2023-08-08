@@ -4,23 +4,58 @@ import { useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import useSystemInfoStore from '@renderer/store/systemInfoStore'
+import usePlaylistStore from '@renderer/store/playlist'
 
 interface IProps { }
 
 const Home: React.FunctionComponent<IProps> = (props) => {
   const navigator = useNavigate()
+  const playlistStore = usePlaylistStore()
   const systemInfoStore = useSystemInfoStore()
+  const gotoPlaylistDetailPage = (folderPath: string) => {
+    navigator(`/playlist-detail/${encodeURIComponent(folderPath)}`)
+  }
+
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
 
+      <main className='playlists'>
+        {playlistStore.playlistLocations.map((location) => {
+          const { folderPath } = location
+          return (
+            <article
+              className='playlist'
+              onClick={() => {
+                if (folderPath) {
+                  gotoPlaylistDetailPage(folderPath)
+                }
+              }}
+              key={folderPath}>
+              <div className='folder-path'>
+                <div className='path-text'>{folderPath}</div>
+                <button
+                  className='delete-button'
+                  onClick={async (event) => {
+                    event.stopPropagation()
+                    if (folderPath) {
+                      return
+                    }
+
+                  }}>
+                  删除
+                </button>
+              </div>
+            </article>
+          )
+        })}
+      </main>
 
       <button
         onClick={async () => {
-          console.log(window.api);
           const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
           if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
-
+            playlistStore.pushPlaylistLocations(addedPlaylistLocation)
           }
         }}>
         选择文件夹

@@ -10,10 +10,22 @@ const emitRevealDbfile = (
 ): Promise<FileIpc.RevealDbfileRes> => {
   return ipcRenderer.callMain('reveral-db-file', data)
 }
+const emitDeletePlaylistLocation = (
+  data: FileIpc.DeletePlaylistLocationReq,
+): Promise<FileIpc.DeletePlaylistLocationRes> => {
+  return ipcRenderer.callMain('delete-playlist-location', data)
+}
+const emitGetPlaylistLocations = (
+  data: FileIpc.GetPlaylistsReq,
+): Promise<FileIpc.GetPlaylistsRes> => {
+  return ipcRenderer.callMain('get-playlists-location', data)
+}
 
 const fileIpc = {
   emitAddFolder,
-  emitRevealDbfile
+  emitRevealDbfile,
+  emitDeletePlaylistLocation,
+  emitGetPlaylistLocations
 }
 
 export default fileIpc
