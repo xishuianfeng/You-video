@@ -12,6 +12,9 @@ declare namespace FileIpc {
 
   export type DeletePlaylistLocationReq = Common.PlaylistLocation
   export type DeletePlaylistLocationRes = void
+
+  export type GetPlaylistAtReq = Common.PlaylistLocation
+  export type GetPlaylistAtRes = Common.Playlist | null
 }
 
 declare namespace SystemInfoIpc {

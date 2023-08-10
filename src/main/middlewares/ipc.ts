@@ -52,6 +52,8 @@ const ipcMiddleware: AppMiddleware = {
           playlistLocations: locations
         }
       })
+
+
     })
 
     systemInfoIpc.onPlatFrom((_data, _win) => {

@@ -20,12 +20,18 @@ const emitGetPlaylistLocations = (
 ): Promise<FileIpc.GetPlaylistsRes> => {
   return ipcRenderer.callMain('get-playlists-location', data)
 }
+const emitGetPlaylistAt = (
+  data: FileIpc.GetPlaylistAtReq,
+): Promise<FileIpc.GetPlaylistAtRes> => {
+  return ipcRenderer.callMain('get-playlist-at', data)
+}
 
 const fileIpc = {
   emitAddFolder,
   emitRevealDbfile,
   emitDeletePlaylistLocation,
-  emitGetPlaylistLocations
+  emitGetPlaylistLocations,
+  emitGetPlaylistAt
 }
 
 export default fileIpc
