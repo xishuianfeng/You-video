@@ -19,11 +19,11 @@ const PlaylistDetail: React.FunctionComponent<IProps> = (props) => {
     const playlistDetail = playlistStore.playlists[folderPath]
     if (playlistDetail) { return }
 
-    const playlist = await window.api.fileIpc.emitGetPlaylistAs({ folderPath })
+    //const playlist = await window.api.fileIpc.emitGetPlaylistAs({ folderPath })
     //未完成
 
-    if (playlist === null) { return }
-    playlistStore.addPlaylist(playlist)
+    //if (playlist === null) { return }
+    //playlistStore.addPlaylist(playlist)
   })
 
   return (

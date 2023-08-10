@@ -53,6 +53,13 @@ const ipcMiddleware: AppMiddleware = {
         }
       })
 
+      // localFileIpc.getPlaylistAt(async (location) => {
+      //   if (!location.folderPath) { return null }
+      //   return fileUtils.getVideosStatsIn(
+      //     location.folderPath,
+      //     SUPPORTED_VIDEO_EXTENSIONS,
+      //   )
+      // })
 
     })
 
