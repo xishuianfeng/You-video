@@ -7,6 +7,11 @@ interface PlaylistStore {
   setPlaylistLocations: (playlists: Array<Common.PlaylistLocation>) => void
   pushPlaylistLocations: (playlist: Common.PlaylistLocation) => void
   clearPlaylistLocations: () => void
+
+  playlists: Record<string, Common.Playlist>
+  setPlaylists: (playlists: Record<string, Common.Playlist>) => void
+  addPlaylist: (playlist: Common.Playlist) => void
+  clearPlaylists: () => void
 }
 
 const usePlaylistStore = create(
@@ -30,7 +35,31 @@ const usePlaylistStore = create(
         set((store) => {
           store.playlistLocations = []
         })
-      }
+      },
+
+
+      playlists: {},
+
+      setPlaylists(newPlaylists) {
+        set((store) => {
+          store.playlists = newPlaylists
+        })
+      },
+
+      addPlaylist(newPlaylist) {
+        set((store) => {
+          if (!newPlaylist.folderPath) {
+            return
+          }
+          store.playlists[newPlaylist.folderPath] = (newPlaylist)
+        })
+      },
+
+      clearPlaylists() {
+        set((store) => {
+          store.playlists = {}
+        })
+      },
     }
   })
 )

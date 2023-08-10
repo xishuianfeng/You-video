@@ -23,10 +23,6 @@ const Home: React.FunctionComponent<IProps> = (props) => {
       <main className='playlists'>
         {playlistStore.playlistLocations.map((location) => {
           const { folderPath } = location
-          console.log(location);
-          console.log(folderPath);
-
-
           return (
             <article
               className='playlist'
