@@ -27,7 +27,6 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
         <div
           className='back-button'
           onClick={() => {
-            console.log('返回了');
             navigate(-1)
           }}>
           {backButton}

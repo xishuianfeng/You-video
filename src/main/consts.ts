@@ -1,0 +1,1 @@
+export const SUPPORTED_VIDEO_EXTENSIONS = ['mp4', 'mkv', 'webm']

@@ -3,6 +3,8 @@ import type { AppMiddleware } from './types'
 import localFileIpc from '@main/ipc-events/localFile'
 import systemInfoIpc from '@main/ipc-events/systemInfo'
 import appDataDb, { appConfigDbPath } from '@main/untls/lowdb'
+import { SUPPORTED_VIDEO_EXTENSIONS } from '@main/consts'
+import fileUtils from '@main/untls/file'
 
 const ipcMiddleware: AppMiddleware = {
   when: 'all',
@@ -53,13 +55,14 @@ const ipcMiddleware: AppMiddleware = {
         }
       })
 
-      // localFileIpc.getPlaylistAt(async (location) => {
-      //   if (!location.folderPath) { return null }
-      //   return fileUtils.getVideosStatsIn(
-      //     location.folderPath,
-      //     SUPPORTED_VIDEO_EXTENSIONS,
-      //   )
-      // })
+      localFileIpc.getPlaylistAt(async (location) => {
+        if (!location.folderPath) { return null }
+
+        return fileUtils.getVideosStatsIn(
+          location.folderPath,
+          SUPPORTED_VIDEO_EXTENSIONS,
+        )
+      })
 
     })
 

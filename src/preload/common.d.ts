@@ -19,7 +19,7 @@ declare namespace Common {
       audio: {
         codec?: string
       }
-      subscribe: Array<{
+      subtitles: Array<{
         codec?: string
       }>
     }>
