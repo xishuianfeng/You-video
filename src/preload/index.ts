@@ -2,10 +2,12 @@ import { contextBridge } from 'electron'
 import { electronAPI, ElectronAPI } from '@electron-toolkit/preload'
 import fileIpc from './localFile'
 import systemInfoIpc from './systemInfoIpc'
+import videoIpc from './video'
 // Custom APIs for renderer
 const api = {
   fileIpc,
   systemInfoIpc,
+  videoIpc
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

@@ -20,3 +20,10 @@ declare namespace FileIpc {
 declare namespace SystemInfoIpc {
   export type PlatformRes = NodeJs.platform
 }
+
+declare namespace VideoIpc {
+  export interface OpenFileReq {
+    url: string
+  }
+  export type OpenFileRes = {} | void
+}
