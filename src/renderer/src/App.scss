@@ -1,0 +1,42 @@
+#container {
+  .draggable-bar {
+    height: 30px;
+    background-color: lightblue;
+    -webkit-app-region: drag;
+  }
+}
+
+.ReactModal__Overlay {
+  inset: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+*,
+*::after,
+*::before {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  appearance: none;
+}
+
+.i-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

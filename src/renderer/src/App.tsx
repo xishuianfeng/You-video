@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, useEffect } from "react"
 import usePlaylistStore from "./store/playlistStore"
 import { useAsyncEffect } from 'ahooks'
+import './App.scss'
 
 const App: FC<PropsWithChildren> = ({ children }) => {
   const playlistStore = usePlaylistStore()
