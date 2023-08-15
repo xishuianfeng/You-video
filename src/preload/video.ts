@@ -6,8 +6,15 @@ const openFile = (
   return ipcRenderer.answerMain('open-file', callback)
 }
 
+const emitSubtitleGenerate = (
+  data: VideoIpc.SubtitleGenerateReq,
+): Promise<VideoIpc.SubtitleGenerateRes> => {
+  return ipcRenderer.callMain('subtitle-generate', data)
+}
+
 const videoIpc = {
-  openFile
+  openFile,
+  emitSubtitleGenerate
 }
 
 export default videoIpc

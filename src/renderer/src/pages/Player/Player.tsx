@@ -3,7 +3,7 @@ import './Player.scss'
 import usePlaylistStore from '@renderer/store/playlistStore'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import classnames from 'classnames'
-import { useFavicon, useFullscreen, useMemoizedFn } from 'ahooks'
+import { useAsyncEffect, useFavicon, useFullscreen, useMemoizedFn } from 'ahooks'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import { Left } from '@icon-park/react'
 import { useImmer } from 'use-immer'
@@ -31,6 +31,8 @@ const Player: FC = () => {
     currentTime: 0,
   })
 
+
+  //  监听进度条秒数 和 视频总秒数
   useEffect(() => {
     const onTimeUpdate = () => {
       setProgress((p) => {
@@ -48,6 +50,29 @@ const Player: FC = () => {
       videoRef.current?.removeEventListener('timeupdate', onTimeUpdate)
     }
   }, [])
+
+
+  //  字幕相关
+  const [subtitleFilePaths, setSubtitleFilePaths] = useImmer<Array<string>>([])
+  const playlist = playlistStore.playlists[folderPath]
+  const currentFile = playlist?.file.find(({ path }) => path === filePath)
+  useAsyncEffect(async () => {
+    if (!currentFile) {
+      return
+    }
+    const subtitleLength = currentFile?.subtitles.length
+    if (subtitleLength !== undefined) {
+      const paths = await window.api.videoIpc.emitSubtitleGenerate({
+        subtitleLength,
+        videoFilePath: filePath
+      })
+      console.log('path => ', paths.subtitleFilePaths);
+      setSubtitleFilePaths(paths.subtitleFilePaths)
+
+    }
+  }, [])
+
+
   //  视图相关 State
   const [controlsVisible, setControlsVisible] = useState(true)
   const [hoverIndicatorVisible, setHoverIndicatorVisible] = useState(true)
@@ -67,6 +92,17 @@ const Player: FC = () => {
           onContextMenu={() => { togglePlayState() }}
         >
           <source src={`local-file://${filePath}`} />
+          {subtitleFilePaths.map((subtitlePath, index) => {
+            return (
+              <track
+                key={subtitlePath}
+                default={index === 0}
+                label='Deutsch'
+                kind='subtitles'
+                src={`local-file://${subtitlePath}`}
+              />
+            )
+          })}
         </video>
       ) : '无视频地址'
       }

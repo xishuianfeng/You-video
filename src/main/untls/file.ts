@@ -2,6 +2,7 @@ import log from "electron-log"
 import ffmpeg from 'fluent-ffmpeg'
 import { globby } from 'globby'
 import path from "path"
+import fsExtra from 'fs-extra'
 
 
 const setFfmpegAndFfprobePath = () => {
@@ -93,8 +94,77 @@ const getVideosStatsIn = async (folderPath: string, extensions: string[]) => {
   return result
 }
 
+const generateThumbnail = async (params: {
+  filePath: string
+  filename: string
+  outputDir: string
+  timestamps: string[]
+}) => {
+  const { filePath, filename, outputDir, timestamps } = params
+  return new Promise<void>((resolve, rejects) => {
+    ffmpeg(filePath)
+      .thumbnail({
+        filename,
+        count: timestamps.length,
+        timestamps,
+        folder: outputDir
+      })
+      .once('error', (error) => {
+        rejects(error);
+      })
+      .once('end', () => {
+        resolve()
+      })
+  })
+}
+
+const generateSubtitle = async (params: {
+  filePath: string
+  subtitleLength: number
+  outDir: string
+}) => {
+  const { filePath, subtitleLength, outDir } = params
+  const promises: Array<Promise<string>> = []
+  for (let i = 0; i < subtitleLength; i++) {
+    const parsedFilePath = path.join(filePath)
+    const outputPath = path.join(outDir, `${parsedFilePath}_${i}.vtt`)
+    const isExist = fsExtra.pathExistsSync(outputPath)
+    if (isExist) {
+      console.log('字幕文件已生成,跳过', outputPath);
+      promises.push(Promise.resolve(outputPath))
+      continue
+    }
+    const promise = new Promise<string>((resolve, rejects) => {
+      ffmpeg(filePath)
+        .outputOption(`map 0:s:${i}`)
+        .output(outputPath)
+        .once('error', (err) => {
+          console.log('err => ', err);
+          rejects(err)
+        })
+        .once('end', () => {
+          resolve(outputPath)
+        })
+        .run()
+    })
+    promises.push(promise)
+  }
+  return Promise.allSettled(promises)
+    .then((settledPromises) => {
+      return settledPromises.filter(({ status }) => status === 'fulfilled')
+    })
+    .then((result) => {
+      const fulfilledResult = result as Array<PromiseFulfilledResult<string>>
+      return fulfilledResult.map(({ value }) => value)
+    })
+}
+
+
+
 const fileUtils = {
   globbyVideosIn,
-  getVideosStatsIn
+  getVideosStatsIn,
+  generateThumbnail,
+  generateSubtitle
 }
 export default fileUtils

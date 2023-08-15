@@ -26,4 +26,12 @@ declare namespace VideoIpc {
     url: string
   }
   export type OpenFileRes = {} | void
+
+  export interface SubtitleGenerateReq {
+    videoFilePath: string
+    subtitleLength: number
+  }
+  export interface SubtitleGenerateRes {
+    subtitleFilePaths: string[]
+  }
 }
