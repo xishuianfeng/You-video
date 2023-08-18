@@ -41,11 +41,8 @@ const Player: FC = () => {
 
     const listener = (call: MediaConnection) => {
       const stream = videoRef.current?.captureStream()
-      console.log('222');
-
       if (stream) {
         call.answer(stream)
-        console.log('call answer');
       }
     }
     peerStore.getPeer().on?.('call', listener)

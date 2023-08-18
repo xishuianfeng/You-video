@@ -41,4 +41,18 @@
 
 .remote-peer-id-input {
   width: 400px;
+  background-color: #eee;
+  padding: 10px;
+}
+
+.modalButton {
+  margin-top: 10px;
+  background-color: lightcyan;
+  margin-right: 10px;
+  padding: 5px;
+  border: solid #555 2px;
+
+  &:hover {
+    background-color: #aaa;
+  }
 }

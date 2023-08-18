@@ -103,6 +103,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
         />
         <div>
           <button
+            className='modalButton'
             onClick={() => {
               const search = new URLSearchParams({
                 remotePeerId
@@ -117,6 +118,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
           </button>
 
           <button
+            className='modalButton'
             onClick={() => {
               setJoinSessionModalVisible(false)
             }}
