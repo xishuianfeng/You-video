@@ -16,6 +16,12 @@ const Home: React.FunctionComponent<IProps> = (props) => {
     navigator(`/playlist-detail/${encodeURIComponent(folderPath)}`)
   }
 
+  const [remotePeerId, setRemotePeerId] = useState('')
+  const [joinSessionModalVisible, setJoinSessionModalVisible] = useState(false)
+  const onJoinSessionClick = () => {
+    setJoinSessionModalVisible(true)
+  }
+
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
@@ -56,6 +62,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
       </main>
 
       <button
+        className='bottomButton'
         onClick={async () => {
           const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
           if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
@@ -67,6 +74,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
 
       {systemInfoStore.isDev && (
         <button
+          className='bottomButton'
           onClick={() => {
             window.api.fileIpc.emitRevealDbfile()
           }}>
@@ -74,6 +82,49 @@ const Home: React.FunctionComponent<IProps> = (props) => {
         </button>
       )}
 
+      <button
+        className='bottomButton'
+        onClick={() => { onJoinSessionClick() }}>
+        观看他人视频
+      </button>
+
+      <Modal
+        isOpen={joinSessionModalVisible}
+        shouldCloseOnEsc={true}
+      >
+        <input
+          className='remote-peer-id-input'
+          type='text'
+          value={remotePeerId}
+          onChange={(event) => {
+            const peerId = event.target.value
+            setRemotePeerId(peerId)
+          }}
+        />
+        <div>
+          <button
+            onClick={() => {
+              const search = new URLSearchParams({
+                remotePeerId
+              }).toString()
+              navigator({
+                pathname: '/video/follower',
+                search
+              })
+            }}
+          >
+            加入
+          </button>
+
+          <button
+            onClick={() => {
+              setJoinSessionModalVisible(false)
+            }}
+          >
+            取消
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }

@@ -7,6 +7,10 @@ import { useAsyncEffect, useFavicon, useFullscreen, useMemoizedFn } from 'ahooks
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import { Left } from '@icon-park/react'
 import { useImmer } from 'use-immer'
+import usePeerStore from '@renderer/store/peerStore'
+import { MediaConnection } from 'peerjs'
+import Modal from 'react-modal'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 const Player: FC = () => {
   const playlistStore = usePlaylistStore()
@@ -14,6 +18,7 @@ const Player: FC = () => {
   const wrapperRef = useRef<HTMLDivElement>(null!)
   const navgiate = useNavigate()
 
+  const peerStore = usePeerStore()
   const [params, _setSearchParams] = useSearchParams()
   const { filePath, folderPath } = Object.fromEntries(params)
 
@@ -31,6 +36,23 @@ const Player: FC = () => {
     currentTime: 0,
   })
 
+  //  Peer监听 on 和 off
+  useEffect(() => {
+
+    const listener = (call: MediaConnection) => {
+      const stream = videoRef.current?.captureStream()
+      console.log('222');
+
+      if (stream) {
+        call.answer(stream)
+        console.log('call answer');
+      }
+    }
+    peerStore.getPeer().on?.('call', listener)
+    return () => {
+      peerStore.getPeer().off?.('call', listener)
+    }
+  }, [])
 
   //  监听进度条秒数 和 视频总秒数
   useEffect(() => {
@@ -77,6 +99,8 @@ const Player: FC = () => {
   const [controlsVisible, setControlsVisible] = useState(true)
   const [hoverIndicatorVisible, setHoverIndicatorVisible] = useState(true)
   const [hoverIndicatorPercent, setHoverIndicatorPercent] = useState(0)
+  const [shareModalVisible, setShareModalVisible] = useState(false)
+
 
   return (
     <div className='player' ref={wrapperRef}>
@@ -129,9 +153,11 @@ const Player: FC = () => {
           }}
         >
           <div className="first-row">
-            <div className="left-buttons">
+            <button className="left-buttons"
+              onClick={() => { setShareModalVisible(true) }}
+            >
               分享画面
-            </div>
+            </button>
             <div className="center-buttons">
               <button>上一集</button>
               <button
@@ -218,6 +244,32 @@ const Player: FC = () => {
           </div>
         </footer>
       </div>
+
+      <Modal
+        // style={{ content: { inset: 'auto' } }}
+        isOpen={shareModalVisible}
+        shouldCloseOnEsc={true}
+      >
+        <div>复制id，将当前画面分享给ta。</div>
+        <div>
+          {peerStore.localPeerId}
+          <CopyToClipboard
+            text={peerStore.localPeerId}
+            onCopy={() => {
+              setShareModalVisible(false)
+            }}
+          >
+            <button>点击复制</button>
+          </CopyToClipboard>
+        </div>
+        <button
+          onClick={() => {
+            setShareModalVisible(false)
+          }}
+        >
+          关闭弹窗
+        </button>
+      </Modal>
 
 
     </div >

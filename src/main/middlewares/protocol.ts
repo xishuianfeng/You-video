@@ -2,7 +2,7 @@ import { app, protocol, shell } from "electron";
 import { AppMiddleware } from "./types";
 import path from "path";
 import fsExtra from 'fs-extra'
-import fileUtils from "@main/untls/file";
+import fileUtils from "@main/utils/file";
 
 const thumbnailOutputDir = path.join(app.getPath('temp'), app.name)
 fsExtra

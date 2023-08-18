@@ -1,6 +1,6 @@
 import { app } from "electron";
 import { AppMiddleware } from "./types";
-import { createWindow } from "@main/untls/window";
+import { createWindow } from "@main/utils/window";
 import videoIpc from "@main/ipc-events/video";
 
 const mainWindowMiddleware: AppMiddleware = {
