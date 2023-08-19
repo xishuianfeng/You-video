@@ -15,7 +15,8 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 const Player: FC = () => {
   const playlistStore = usePlaylistStore()
   const videoRef = useRef<HTMLVideoElement & { captureStream: HTMLCanvasElement['captureStream'] }>(null)
-  const wrapperRef = useRef<HTMLDivElement>(null!)
+  const trackRef = useRef<HTMLTrackElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const navgiate = useNavigate()
 
   const peerStore = usePeerStore()
@@ -92,6 +93,35 @@ const Player: FC = () => {
   }, [])
 
 
+  useEffect(() => {
+    const sendSubtitle = () => {
+      const textTrack = trackRef.current?.track.activeCues?.[0]
+      if (textTrack) {
+        //@ts-ignore
+        //  获取 track 当前展示文字
+        const subtitle = textTrack.text
+        console.log(subtitle);
+        // 建立数据连接
+
+        peerStore.getPeer().on('connection', (connection) => {
+          console.log('开始监听数据连接')
+
+          peerStore.setDataConnection(connection)
+          connection.once('open', () => {
+            connection.send(subtitle)
+          })
+        });
+      }
+    }
+    trackRef.current?.addEventListener('cuechange', sendSubtitle);
+    return () => {
+      trackRef.current?.removeEventListener('cuechange', sendSubtitle);
+    }
+  }, [])
+
+
+
+
   //  视图相关 State
   const [controlsVisible, setControlsVisible] = useState(true)
   const [hoverIndicatorVisible, setHoverIndicatorVisible] = useState(true)
@@ -108,14 +138,15 @@ const Player: FC = () => {
           loop={false}
           className={classnames()}
           onDoubleClick={() => {
-            toggleFullscreen(), console.log(1);
+            toggleFullscreen()
           }}
           onContextMenu={() => { togglePlayState() }}
         >
           <source src={`local-file://${filePath}`} />
-          {subtitleFilePaths.map((subtitlePath, index) => {
+          {/* {subtitleFilePaths.map((subtitlePath, index) => {
             return (
               <track
+                ref={trackRef}
                 key={subtitlePath}
                 default={index === 0}
                 label='Deutsch'
@@ -123,7 +154,14 @@ const Player: FC = () => {
                 src={`local-file://${subtitlePath}`}
               />
             )
-          })}
+          })} */}
+          <track
+            ref={trackRef}
+            src={`local-file://D:\\bc\\content\\git clone\\video-player\\src\\renderer\\src\\assets\\subtitle.vtt`}
+            kind="subtitles"
+            label="Deutsch"
+            default
+          />
         </video>
       ) : '无视频地址'
       }

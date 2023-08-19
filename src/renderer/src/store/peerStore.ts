@@ -1,4 +1,4 @@
-import Peer, { PeerErrorType } from 'peerjs'
+import Peer, { DataConnection, PeerErrorType } from 'peerjs'
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
@@ -6,6 +6,8 @@ interface PeerStore {
   getPeer: () => Peer
   localPeerId: string
   setLocalPeerId: (id: string) => void
+  dataConnection: undefined | DataConnection
+  setDataConnection: (connection: DataConnection) => void
 }
 
 const usePeerStore = create(
@@ -18,6 +20,12 @@ const usePeerStore = create(
           store.localPeerId = id
         })
       },
+      dataConnection: undefined,
+      setDataConnection(connection) {
+        set((store) => {
+          store.dataConnection = connection
+        })
+      }
     }
   }),
 )
@@ -38,6 +46,9 @@ const onError = (error: Error) => {
 peer.on('open', onOpen)
 peer.on('disconnected', onDisconnected)
 peer.on('error', onError)
+
+
+
 
 type PeerJSError = Error & { type: PeerErrorType }
 

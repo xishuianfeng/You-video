@@ -12,16 +12,18 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
   const [params, setSearchParams] = useSearchParams()
   const peerStore = usePeerStore()
   const serachParams = Object.fromEntries(params) as { remotePeerId: string }
+  const remotePeerId = serachParams.remotePeerId
   const videoRef = useRef<
     HTMLVideoElement & { captureStream: HTMLCanvasElement['captureStream'] }
   >(null!)
+  const peer = peerStore.getPeer()
 
   const connectPeer = useMemoizedFn((remotePeerId: string) => {
     return new Promise<void>((resolve, reject) => {
-      const call = peerStore
-        .getPeer()
-        .call(remotePeerId, createEmptyMediaStream())
+      const call = peer.call(remotePeerId, createEmptyMediaStream())
 
+
+      if (!remotePeerId) { return }
       call.once('stream', (stream) => {
         console.log('remoteStream', stream);
         videoRef.current.srcObject = stream
@@ -38,10 +40,17 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
     })
   })
 
-  useEffect(() => {
-    const remotePeerId = serachParams.remotePeerId
 
-    if (!remotePeerId) { return }
+  const reception = () => {
+    const connection = peer.connect(remotePeerId)
+    peerStore.setDataConnection(connection)
+    connection.on('data', (data) => {
+      console.log(data);
+    })
+  }
+
+  useEffect(() => {
+    reception()
 
     connectPeer(remotePeerId)
       .then(() => {
