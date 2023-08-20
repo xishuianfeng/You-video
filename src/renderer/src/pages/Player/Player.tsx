@@ -18,8 +18,8 @@ const Player: FC = () => {
   const trackRef = useRef<HTMLTrackElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const navgiate = useNavigate()
-
   const peerStore = usePeerStore()
+  const peer = peerStore.getPeer()
   const [params, _setSearchParams] = useSearchParams()
   const { filePath, folderPath } = Object.fromEntries(params)
 
@@ -39,16 +39,15 @@ const Player: FC = () => {
 
   //  Peer监听 on 和 off
   useEffect(() => {
-
     const listener = (call: MediaConnection) => {
       const stream = videoRef.current?.captureStream()
       if (stream) {
         call.answer(stream)
       }
     }
-    peerStore.getPeer().on?.('call', listener)
+    peer.on?.('call', listener)
     return () => {
-      peerStore.getPeer().off?.('call', listener)
+      peer.off?.('call', listener)
     }
   }, [])
 
@@ -93,34 +92,33 @@ const Player: FC = () => {
   }, [])
 
 
-  useEffect(() => {
-    const sendSubtitle = () => {
-      const textTrack = trackRef.current?.track.activeCues?.[0]
-      if (textTrack) {
-        //@ts-ignore
-        //  获取 track 当前展示文字
-        const subtitle = textTrack.text
-        console.log(subtitle);
-        // 建立数据连接
 
-        peerStore.getPeer().on('connection', (connection) => {
-          console.log('开始监听数据连接')
+  const sendSubtitle = useMemoizedFn(() => {
+    const textTrack = trackRef.current?.track.activeCues?.[0]
+    if (textTrack) {
+      //@ts-ignore
+      //  获取 track 当前展示文字
+      const subtitle = textTrack.text
+      console.log(subtitle);
 
-          peerStore.setDataConnection(connection)
-          connection.once('open', () => {
-            connection.send(subtitle)
-          })
-        });
+      if (peerStore.dataConnection) {
+        peerStore.dataConnection.send(subtitle)
       }
     }
+  })
+
+  useEffect(() => {
+    // 建立数据连接
+    peer.on('connection', (connection) => {
+      console.log('开始监听数据连接')
+      peerStore.setDataConnection(connection)
+    });
     trackRef.current?.addEventListener('cuechange', sendSubtitle);
+
     return () => {
       trackRef.current?.removeEventListener('cuechange', sendSubtitle);
     }
   }, [])
-
-
-
 
   //  视图相关 State
   const [controlsVisible, setControlsVisible] = useState(true)

@@ -13,9 +13,9 @@ fsExtra
       return
     }
   })
-  .finally(() => {
-    shell.openPath(thumbnailOutputDir)
-  })
+// .finally(() => {
+//   shell.openPath(thumbnailOutputDir)
+// })
 
 const protocolMiddleware: AppMiddleware = {
   when: 'all',

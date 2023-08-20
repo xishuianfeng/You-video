@@ -1,6 +1,6 @@
 import usePeerStore from '@renderer/store/peerStore'
 import './Follower.scss'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import { useMemoizedFn } from 'ahooks'
@@ -40,17 +40,18 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
     })
   })
 
-
-  const reception = () => {
+  const [subtitle, setSubtitle]: any = useState('')
+  const receptionSubtitle = () => {
     const connection = peer.connect(remotePeerId)
     peerStore.setDataConnection(connection)
     connection.on('data', (data) => {
-      console.log(data);
+      setSubtitle(data)
+      console.log(subtitle);
     })
   }
 
   useEffect(() => {
-    reception()
+    receptionSubtitle()
 
     connectPeer(remotePeerId)
       .then(() => {

@@ -6,6 +6,8 @@ interface PeerStore {
   getPeer: () => Peer
   localPeerId: string
   setLocalPeerId: (id: string) => void
+  subtitle: string
+  setSubtitle: (subtitle) => void
   dataConnection: undefined | DataConnection
   setDataConnection: (connection: DataConnection) => void
 }
@@ -14,6 +16,12 @@ const usePeerStore = create(
   immer<PeerStore>((set, get) => {
     return {
       getPeer: () => peer,
+      subtitle: '',
+      setSubtitle(subtitle) {
+        set((store) => {
+          store.subtitle = subtitle
+        })
+      },
       localPeerId: '',
       setLocalPeerId(id) {
         set((store) => {
