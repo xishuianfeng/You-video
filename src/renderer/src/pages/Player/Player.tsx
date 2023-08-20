@@ -99,7 +99,6 @@ const Player: FC = () => {
       //@ts-ignore
       //  获取 track 当前展示文字
       const subtitle = textTrack.text
-      console.log(subtitle);
 
       if (peerStore.dataConnection) {
         peerStore.dataConnection.send(subtitle)
@@ -110,7 +109,6 @@ const Player: FC = () => {
   useEffect(() => {
     // 建立数据连接
     peer.on('connection', (connection) => {
-      console.log('开始监听数据连接')
       peerStore.setDataConnection(connection)
     });
     trackRef.current?.addEventListener('cuechange', sendSubtitle);
@@ -141,7 +139,7 @@ const Player: FC = () => {
           onContextMenu={() => { togglePlayState() }}
         >
           <source src={`local-file://${filePath}`} />
-          {/* {subtitleFilePaths.map((subtitlePath, index) => {
+          {subtitleFilePaths.map((subtitlePath, index) => {
             return (
               <track
                 ref={trackRef}
@@ -152,14 +150,14 @@ const Player: FC = () => {
                 src={`local-file://${subtitlePath}`}
               />
             )
-          })} */}
-          <track
+          })}
+          {/* <track
             ref={trackRef}
             src={`local-file://D:\\bc\\content\\git clone\\video-player\\src\\renderer\\src\\assets\\subtitle.vtt`}
             kind="subtitles"
             label="Deutsch"
             default
-          />
+          /> */}
         </video>
       ) : '无视频地址'
       }

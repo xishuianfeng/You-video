@@ -18,4 +18,14 @@
     width: 100%;
     height: 100%;
   }
+
+  .follower-subtitle {
+    position: absolute;
+    font-size: 30px;
+    z-index: 2;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+  }
 }

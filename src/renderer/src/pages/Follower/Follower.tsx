@@ -17,6 +17,7 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
     HTMLVideoElement & { captureStream: HTMLCanvasElement['captureStream'] }
   >(null!)
   const peer = peerStore.getPeer()
+  const [subtitle, setSubtitle]: any = useState('')
 
   const connectPeer = useMemoizedFn((remotePeerId: string) => {
     return new Promise<void>((resolve, reject) => {
@@ -40,13 +41,11 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
     })
   })
 
-  const [subtitle, setSubtitle]: any = useState('')
   const receptionSubtitle = () => {
     const connection = peer.connect(remotePeerId)
     peerStore.setDataConnection(connection)
     connection.on('data', (data) => {
       setSubtitle(data)
-      console.log(subtitle);
     })
   }
 
@@ -71,6 +70,13 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
         <NavigationBar />
       </div>
       <video className='follower-video' ref={videoRef} autoPlay></video>
+
+      {subtitle
+        ? <div
+          className='follower-subtitle'
+          dangerouslySetInnerHTML={{ __html: subtitle.replace('<script>', '',) }}
+        >
+        </div> : ''}
     </div>
   )
 }
