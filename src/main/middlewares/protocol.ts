@@ -54,9 +54,7 @@ const protocolMiddleware: AppMiddleware = {
           timestamps,
           filename: '%f'
         }).then(() => {
-          console.log(`缩略图转化成功,from:${videoFilePath},to:${outputFilePath}`);
         }).catch((err) => {
-          console.log('缩略图转化失败' + err);
           callback('')
         })
       })

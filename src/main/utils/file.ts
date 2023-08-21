@@ -48,8 +48,6 @@ const globbyVideosIn = async (folderPath: string, extensions: string[]) => {
     cwd: folderPath,
     absolute: true
   }).then((filePaths) => {
-    console.log(filePaths);
-
     return filePaths.map((p) => path.join(p))
   })
 }
@@ -123,26 +121,33 @@ const generateSubtitle = async (params: {
   subtitleLength: number
   outDir: string
 }) => {
+
   const { filePath, subtitleLength, outDir } = params
+  console.log(subtitleLength);
+
   const promises: Array<Promise<string>> = []
   for (let i = 0; i < subtitleLength; i++) {
-    const parsedFilePath = path.join(filePath)
-    const outputPath = path.join(outDir, `${parsedFilePath}_${i}.vtt`)
+    console.log(2);
+
+    const parsedFilePath = path.parse(filePath)
+    const outputPath = path.join(outDir, `${parsedFilePath.name}_${i}.vtt`)
     const isExist = fsExtra.pathExistsSync(outputPath)
     if (isExist) {
-      console.log('字幕文件已生成,跳过', outputPath);
+      console.log('字幕文件生成，跳过文件', outputPath)
       promises.push(Promise.resolve(outputPath))
       continue
     }
-    const promise = new Promise<string>((resolve, rejects) => {
+
+    const promise = new Promise<string>((resolve, reject) => {
       ffmpeg(filePath)
-        .outputOption(`map 0:s:${i}`)
+        .outputOption([`-map 0:s:${i}`])
         .output(outputPath)
-        .once('error', (err) => {
-          console.log('err => ', err);
-          rejects(err)
+        .once('error', (error) => {
+          console.log('error ==========>', error)
+          reject(error)
         })
         .once('end', () => {
+          console.log('end ==========>', outputPath)
           resolve(outputPath)
         })
         .run()

@@ -75,23 +75,40 @@ const Player: FC = () => {
   const [subtitleFilePaths, setSubtitleFilePaths] = useImmer<Array<string>>([])
   const playlist = playlistStore.playlists[folderPath]
   const currentFile = playlist?.file.find(({ path }) => path === filePath)
+
   useAsyncEffect(async () => {
     if (!currentFile) {
       return
     }
+    console.log('currentFile ====>  ', currentFile);
+
     const subtitleLength = currentFile?.subtitles.length
     if (subtitleLength !== undefined) {
       const paths = await window.api.videoIpc.emitSubtitleGenerate({
         subtitleLength,
-        videoFilePath: filePath
+        videoFilePath: filePath,
       })
-      console.log('path => ', paths.subtitleFilePaths);
+      console.log('paths ===========>', paths.subtitleFilePaths)
       setSubtitleFilePaths(paths.subtitleFilePaths)
 
     }
   }, [])
 
-
+  const onChangeSubtitle = (index: number) => {
+    if (currentFile?.subtitles.length) {
+      for (let i = 0; i < currentFile?.subtitles.length; i++) {
+        if (i === index) {
+          if (videoRef.current) {
+            videoRef.current.textTracks[i].mode = 'showing'
+          }
+        } else {
+          if (videoRef.current) {
+            videoRef.current.textTracks[i].mode = 'hidden'
+          }
+        }
+      }
+    }
+  }
 
   const sendSubtitle = useMemoizedFn(() => {
     const textTrack = trackRef.current?.track.activeCues?.[0]
@@ -123,6 +140,7 @@ const Player: FC = () => {
   const [hoverIndicatorVisible, setHoverIndicatorVisible] = useState(true)
   const [hoverIndicatorPercent, setHoverIndicatorPercent] = useState(0)
   const [shareModalVisible, setShareModalVisible] = useState(false)
+  const [subtitleFileVisible, setSubtitleFileVisible] = useState(false)
 
 
   return (
@@ -213,6 +231,11 @@ const Player: FC = () => {
                 快进
               </button>
               <button>下一集</button>
+              <button
+                onClick={() => { setSubtitleFileVisible(true) }}
+              >
+                选择字幕
+              </button>
             </div>
             <div className="right-buttons">
               <button
@@ -296,6 +319,40 @@ const Player: FC = () => {
         <button
           onClick={() => {
             setShareModalVisible(false)
+          }}
+        >
+          关闭弹窗
+        </button>
+      </Modal>
+
+      <Modal
+        isOpen={subtitleFileVisible}
+        shouldCloseOnEsc={true}
+      >
+        <div>选择字幕文件</div>
+        <div className='subtitle-wrapper'>
+          {(subtitleFilePaths.length === 0)
+            ? <div>暂无可供选择的字幕文件</div>
+            : subtitleFilePaths.map((subtitlePath, index) => {
+              return (
+                <div
+                  className='select-subtitle'
+                  key={subtitlePath}
+                  onClick={() => {
+                    console.log(index);
+                    onChangeSubtitle(index)
+
+                    setSubtitleFileVisible(false)
+                  }}
+                >
+                  {subtitlePath}
+                </div>
+              )
+            })}
+        </div>
+        <button
+          onClick={() => {
+            setSubtitleFileVisible(false)
           }}
         >
           关闭弹窗
