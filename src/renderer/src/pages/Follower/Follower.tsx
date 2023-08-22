@@ -51,7 +51,6 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
 
   useEffect(() => {
     receptionSubtitle()
-
     connectPeer(remotePeerId)
       .then(() => {
         setSearchParams((prev) => {

@@ -15,14 +15,13 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 const Player: FC = () => {
   const playlistStore = usePlaylistStore()
   const videoRef = useRef<HTMLVideoElement & { captureStream: HTMLCanvasElement['captureStream'] }>(null)
-  const trackRef = useRef<HTMLTrackElement>(null)
+  const trackRef = useRef<Array<HTMLTrackElement>>([])
   const wrapperRef = useRef<HTMLDivElement>(null)
   const navgiate = useNavigate()
   const peerStore = usePeerStore()
   const peer = peerStore.getPeer()
   const [params, _setSearchParams] = useSearchParams()
   const { filePath, folderPath } = Object.fromEntries(params)
-  const [remotePeerId, setRemotePeerId] = useState('')
 
   const [isFullscreen, { enterFullscreen, exitFullscreen, toggleFullscreen }] = useFullscreen(wrapperRef.current, {})
   const togglePlayState = useMemoizedFn(() => {
@@ -108,12 +107,15 @@ const Player: FC = () => {
     }
   }
 
-  const sendSubtitle = useMemoizedFn(() => {
-    const textTrack = trackRef.current?.track.activeCues?.[0]
-    if (textTrack) {
+  const sendSubtitle = useMemoizedFn((event: Event) => {
+    // const textTrack = trackRef[selectTrack].current?.track.activeCues?.[0]
+    const target = event.currentTarget as HTMLTrackElement
+    const cue = target.track.activeCues?.[0]
+    if (cue) {
       //@ts-ignore
       //  获取 track 当前展示文字
-      const subtitle = textTrack.text
+      const subtitle = cue.text
+
       if (peerStore.dataConnection) {
         peerStore.dataConnection.send(subtitle)
       }
@@ -125,13 +127,21 @@ const Player: FC = () => {
     peer.on('connection', (connection) => {
       peerStore.setDataConnection(connection)
     });
+  }, [])
 
-    trackRef.current?.addEventListener('cuechange', sendSubtitle);
+  useEffect(() => {
+    console.log(trackRef);
+
+    trackRef.current.forEach((r) => {
+      r.addEventListener('cuechange', sendSubtitle);
+    })
 
     return () => {
-      trackRef.current?.removeEventListener('cuechange', sendSubtitle);
+      trackRef.current.forEach((r) => {
+        r.removeEventListener('cuechange', sendSubtitle);
+      })
     }
-  }, [])
+  }, [subtitleFilePaths])
 
   //  视图相关 State
   const [controlsVisible, setControlsVisible] = useState(true)
@@ -139,7 +149,6 @@ const Player: FC = () => {
   const [hoverIndicatorPercent, setHoverIndicatorPercent] = useState(0)
   const [shareModalVisible, setShareModalVisible] = useState(false)
   const [subtitleFileVisible, setSubtitleFileVisible] = useState(false)
-
 
   return (
     <div className='player' ref={wrapperRef}>
@@ -158,7 +167,11 @@ const Player: FC = () => {
           {subtitleFilePaths.map((subtitlePath, index) => {
             return (
               <track
-                ref={trackRef}
+                ref={(r) => {
+                  if (r) {
+                    trackRef.current[index] = r
+                  }
+                }}
                 key={subtitlePath}
                 default={index === 0}
                 label='Deutsch'
@@ -317,9 +330,9 @@ const Player: FC = () => {
           </CopyToClipboard>
         </div>
         <div>
-          http://localhost:5173/video/follower?remotePeerId={peerStore.localPeerId}
+          http://localhost:5173?remotePeerId={peerStore.localPeerId}
           <CopyToClipboard
-            text={`http://localhost:5173/video/follower?remotePeerId=${peerStore.localPeerId}`}
+            text={`http://localhost:5173?remotePeerId=${peerStore.localPeerId}`}
             onCopy={() => {
               setShareModalVisible(false)
             }}
@@ -353,7 +366,6 @@ const Player: FC = () => {
                   key={subtitlePath}
                   onClick={() => {
                     onChangeSubtitle(index)
-
                     setSubtitleFileVisible(false)
                   }}
                 >
