@@ -22,6 +22,7 @@ const Player: FC = () => {
   const peer = peerStore.getPeer()
   const [params, _setSearchParams] = useSearchParams()
   const { filePath, folderPath } = Object.fromEntries(params)
+  const [remotePeerId, setRemotePeerId] = useState('')
 
   const [isFullscreen, { enterFullscreen, exitFullscreen, toggleFullscreen }] = useFullscreen(wrapperRef.current, {})
   const togglePlayState = useMemoizedFn(() => {
@@ -80,7 +81,6 @@ const Player: FC = () => {
     if (!currentFile) {
       return
     }
-    console.log('currentFile ====>  ', currentFile);
 
     const subtitleLength = currentFile?.subtitles.length
     if (subtitleLength !== undefined) {
@@ -88,9 +88,7 @@ const Player: FC = () => {
         subtitleLength,
         videoFilePath: filePath,
       })
-      console.log('paths ===========>', paths.subtitleFilePaths)
       setSubtitleFilePaths(paths.subtitleFilePaths)
-
     }
   }, [])
 
@@ -116,7 +114,6 @@ const Player: FC = () => {
       //@ts-ignore
       //  获取 track 当前展示文字
       const subtitle = textTrack.text
-
       if (peerStore.dataConnection) {
         peerStore.dataConnection.send(subtitle)
       }
@@ -128,6 +125,7 @@ const Player: FC = () => {
     peer.on('connection', (connection) => {
       peerStore.setDataConnection(connection)
     });
+
     trackRef.current?.addEventListener('cuechange', sendSubtitle);
 
     return () => {
@@ -203,7 +201,9 @@ const Player: FC = () => {
         >
           <div className="first-row">
             <button className="left-buttons"
-              onClick={() => { setShareModalVisible(true) }}
+              onClick={() => {
+                setShareModalVisible(true)
+              }}
             >
               分享画面
             </button>
@@ -304,7 +304,7 @@ const Player: FC = () => {
         isOpen={shareModalVisible}
         shouldCloseOnEsc={true}
       >
-        <div>复制id，将当前画面分享给ta。</div>
+        <div>复制id或链接，将当前画面分享给ta。</div>
         <div>
           {peerStore.localPeerId}
           <CopyToClipboard
@@ -314,6 +314,19 @@ const Player: FC = () => {
             }}
           >
             <button>点击复制</button>
+          </CopyToClipboard>
+        </div>
+        <div>
+          http://localhost:5173/video/follower?remotePeerId={peerStore.localPeerId}
+          <CopyToClipboard
+            text={`http://localhost:5173/video/follower?remotePeerId=${peerStore.localPeerId}`}
+            onCopy={() => {
+              setShareModalVisible(false)
+            }}
+          >
+            <button>
+              点击复制
+            </button>
           </CopyToClipboard>
         </div>
         <button
@@ -339,7 +352,6 @@ const Player: FC = () => {
                   className='select-subtitle'
                   key={subtitlePath}
                   onClick={() => {
-                    console.log(index);
                     onChangeSubtitle(index)
 
                     setSubtitleFileVisible(false)
