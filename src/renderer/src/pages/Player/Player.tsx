@@ -70,6 +70,20 @@ const Player: FC = () => {
     }
   }, [])
 
+  // 进度条转化为分钟，小于 10 前面加 0，大于 10 不加 0
+  const invertSecond = (totalSeconds: number) => {
+    const minute = totalSeconds / 60
+    const second = totalSeconds % 60
+    let minuteString = minute.toFixed()
+    let secondString = second.toFixed()
+    if (minute < 10) {
+      minuteString = '0' + minute.toFixed()
+    }
+    if (second < 10) {
+      secondString = '0' + second.toFixed()
+    }
+    return (minuteString + ':' + secondString)
+  }
 
   //  字幕相关
   const [subtitleFilePaths, setSubtitleFilePaths] = useImmer<Array<string>>([])
@@ -157,7 +171,33 @@ const Player: FC = () => {
     }
   }, [])
 
-
+  //  监听 空格 方向键（← →） keydown事件 
+  const keydownEvent = useMemoizedFn((event) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+    switch (event.key) {
+      case " ":
+        togglePlayState()
+        break;
+      case "ArrowLeft":
+        if (videoRef.current) {
+          videoRef.current.currentTime -= 10
+        }
+        break;
+      case "ArrowRight":
+        if (videoRef.current) {
+          videoRef.current.currentTime += 10
+        }
+        break;
+      default:
+        return;
+    }
+  })
+  useEffect(() => {
+    window.addEventListener('keydown', keydownEvent);
+    return (() => window.addEventListener('keydown', keydownEvent))
+  }, [])
 
   //  视图相关 State
   const [controlsVisible, setControlsVisible] = useState(true)
@@ -288,11 +328,11 @@ const Player: FC = () => {
 
             <div className='time'>
               {progress.currentTime
-                ? `${(progress.currentTime / 60).toFixed(0)}:${(progress.currentTime % 60).toFixed(0)}`
+                ? invertSecond(progress.currentTime)
                 : <div>00:00</div>}
               /
               {progress.duration
-                ? `${(progress.duration / 60).toFixed(0)}:${(progress.duration % 60).toFixed(0)}`
+                ? invertSecond(progress.duration)
                 : <div>00:00</div>}
             </div>
 
