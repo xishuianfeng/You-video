@@ -23,38 +23,58 @@
     }
 
     .control-bar {
-      background-color: rgba(0, 0, 0, 0.2);
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       transition: opacity ease 0.3s;
+      margin-bottom: 30px;
 
       button {
+        cursor: pointer;
         margin: 0 10px;
-        background-color: rgb(162, 162, 162);
-        // background-color: #FFF;
       }
 
-      .first-row {
+      .row {
+        margin-left: 30px;
+        margin-right: 30px;
         display: flex;
+        flex-direction: row;
+        background-color: rgba(0, 0, 0, 0.2);
+        height: 60px;
         justify-content: space-between;
-        align-items: center;
-      }
+        border-radius: 20px 20px 20px 20px;
+        padding-left: 20px;
+        padding-right: 20px;
 
-      .second-row {
-        .progress {
-          background-color: rgba(176, 196, 222, 0.3);
-          position: relative;
-          height: 20px;
+        .time {
+          margin: auto 30px;
+        }
 
-          .done {
-            position: absolute;
-            top: 0;
-            right: 100%;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(176, 196, 222, 0.6);
+        .icon {
+          margin-top: 5px;
+        }
+
+        .progress-wrapper {
+          cursor: pointer;
+          flex-grow: 1;
+
+          .progress {
+            background-color: rgba(176, 196, 222, 0.3);
+            position: relative;
+            margin-top: 28px;
+            height: 4px;
+            overflow: hidden;
+            border-radius: 10px 10px 10px 10px;
+
+            .done {
+              position: absolute;
+              top: 0;
+              right: 100%;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(176, 196, 222, 0.6);
+            }
           }
 
           .hover-indicator {
@@ -65,22 +85,35 @@
             height: 100%;
             width: 100%;
           }
-
-          .current-time {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-          }
-
-          .total-time {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-          }
         }
       }
     }
+  }
+}
+
+.subtitle-wrapper {
+  margin-top: 10px;
+
+  .select-subtitle {
+    height: 30px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+}
+
+.share-title {
+  margin-bottom: 10px;
+}
+
+.close-button,
+.copy-button {
+  cursor: pointer;
+  padding: 5px;
+
+  &:hover {
+    background-color: #aaa;
   }
 }

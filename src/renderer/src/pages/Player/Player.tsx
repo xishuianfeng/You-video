@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import classnames from 'classnames'
 import { useAsyncEffect, useFavicon, useFullscreen, useMemoizedFn } from 'ahooks'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
-import { Left } from '@icon-park/react'
+import { FullScreenOne, Left, List, Pause, PlayOne, Share, ShareOne } from '@icon-park/react'
 import { useImmer } from 'use-immer'
 import usePeerStore from '@renderer/store/peerStore'
 import { MediaConnection } from 'peerjs'
@@ -130,8 +130,6 @@ const Player: FC = () => {
   }, [])
 
   useEffect(() => {
-    console.log(trackRef);
-
     trackRef.current.forEach((r) => {
       r.addEventListener('cuechange', sendSubtitle);
     })
@@ -142,6 +140,24 @@ const Player: FC = () => {
       })
     }
   }, [subtitleFilePaths])
+
+  //  首位导航栏显示  
+  useEffect(() => {
+    const onMouseMove = () => {
+      setControlsVisible(true)
+    }
+    const onMouseLeave = () => {
+      setControlsVisible(false)
+    }
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseleave', onMouseLeave)
+    return () => {
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseleave', onMouseLeave)
+    }
+  }, [])
+
+
 
   //  视图相关 State
   const [controlsVisible, setControlsVisible] = useState(true)
@@ -161,7 +177,8 @@ const Player: FC = () => {
           onDoubleClick={() => {
             toggleFullscreen()
           }}
-          onContextMenu={() => { togglePlayState() }}
+          // onContextMenu={() => { togglePlayState() }}
+          onClick={() => { togglePlayState() }}
         >
           <source src={`local-file://${filePath}`} />
           {subtitleFilePaths.map((subtitlePath, index) => {
@@ -180,13 +197,6 @@ const Player: FC = () => {
               />
             )
           })}
-          {/* <track
-            ref={trackRef}
-            src={`local-file://D:\\bc\\content\\git clone\\video-player\\src\\renderer\\src\\assets\\subtitle.vtt`}
-            kind="subtitles"
-            label="Deutsch"
-            default
-          /> */}
         </video>
       ) : '无视频地址'
       }
@@ -200,7 +210,7 @@ const Player: FC = () => {
           }}
         >
           <NavigationBar
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+            style={{ backgroundColor: 'rgba(38,40,52,0.8)' }}
             backButton={<Left style={{ color: 'whitesmoke' }} />}
           />
         </header>
@@ -212,7 +222,8 @@ const Player: FC = () => {
             pointerEvents: controlsVisible ? 'all' : 'none',
           }}
         >
-          <div className="first-row">
+
+          <div className='row'>
 
             {peerStore.localPeerId
               ? <button className="left-buttons"
@@ -220,64 +231,25 @@ const Player: FC = () => {
                   setShareModalVisible(true)
                 }}
               >
-                分享画面
+                <ShareOne className='icon' theme="outline" size="24" fill="#95979d" />
               </button>
-              : <div className="left-buttons"></div>
+              : <div className="left-buttons" />
             }
 
-            <div className="center-buttons">
-              <button>上一集</button>
-              <button
-                onClick={() => {
-                  if (videoRef.current) {
-                    videoRef.current.currentTime -= 10
-                  }
-                }}
-              >
-                快退
-              </button>
-              <button onClick={() => togglePlayState()}>
-                {videoRef.current?.paused ? '播放' : '暂停'}
-              </button>
-              <button
-                onClick={() => {
-                  if (videoRef.current) {
-                    videoRef.current.currentTime += 10
-                  }
-                }}
-              >
-                快进
-              </button>
-              <button>下一集</button>
-              <button
-                onClick={() => { setSubtitleFileVisible(true) }}
-              >
-                选择字幕
-              </button>
-            </div>
-            <div className="right-buttons">
-              <button
-                onClick={() => {
-                  toggleFullscreen()
-                }}
-              >
-                全屏
-              </button>
-            </div>
-          </div>
+            <button onClick={() => togglePlayState()}>
+              {videoRef.current?.paused
+                ? <PlayOne className='icon' theme="outline" size="24" fill="#95979d" />
+                : <Pause className='icon' theme="outline" size="24" fill="#95979d" />}
+            </button>
 
-          <div className="second-row">
             <div
-              className="progress"
+              className='progress-wrapper'
               onMouseMove={(event) => {
                 setHoverIndicatorVisible(true)
                 const { left, width } =
                   event.currentTarget.getBoundingClientRect()
                 const newPercent = (event.clientX - left) / width
                 setHoverIndicatorPercent(newPercent)
-              }}
-              onMouseLeave={() => {
-                setHoverIndicatorVisible(false)
               }}
               onClick={(event) => {
                 setHoverIndicatorVisible(false)
@@ -292,27 +264,53 @@ const Player: FC = () => {
                   })
                 }
               }}
-            >
-              <div
-                className="done"
-                style={{
-                  transform: `translateX(${(progress.currentTime / progress.duration) * 100
-                    }%)`,
-                }}
-              />
-              {hoverIndicatorVisible && (
+              onMouseLeave={() => {
+                setHoverIndicatorVisible(false)
+              }}>
+              <div className="progress">
                 <div
-                  className='hover-indicator'
+                  className="done"
                   style={{
-                    transform: `translateX(${hoverIndicatorPercent * 100}%)`,
+                    transform: `translateX(${(progress.currentTime / progress.duration) * 100
+                      }%)`,
                   }}
                 />
-              )}
-              <div className='current-time'>
-                {progress.currentTime.toFixed(0)}
+                {hoverIndicatorVisible && (
+                  <div
+                    className='hover-indicator'
+                    style={{
+                      transform: `translateX(${hoverIndicatorPercent * 100}%)`,
+                    }}
+                  />
+                )}
               </div>
-              <div className="total-time">{progress.duration.toFixed(0)}</div>
             </div>
+
+            <div className='time'>
+              {progress.currentTime
+                ? `${(progress.currentTime / 60).toFixed(0)}:${(progress.currentTime % 60).toFixed(0)}`
+                : <div>00:00</div>}
+              /
+              {progress.duration
+                ? `${(progress.duration / 60).toFixed(0)}:${(progress.duration % 60).toFixed(0)}`
+                : <div>00:00</div>}
+            </div>
+
+            <button
+              onClick={() => { setSubtitleFileVisible(true) }}
+            >
+              <List className='icon' theme="two-tone" size="24" fill={['#95979d', '#2F88FF']} />
+            </button>
+
+
+            <button
+              onClick={() => {
+                toggleFullscreen()
+              }}
+            >
+              <FullScreenOne className='icon' theme="two-tone" size="24" fill={['#95979d', '#2F88FF']} />
+            </button>
+
           </div>
         </footer>
       </div>
@@ -322,7 +320,7 @@ const Player: FC = () => {
         isOpen={shareModalVisible}
         shouldCloseOnEsc={true}
       >
-        <div>复制id或链接，将当前画面分享给ta。</div>
+        <div className='share-title'>复制id或链接，将当前画面分享给ta。</div>
         <div>
           {peerStore.localPeerId}
           <CopyToClipboard
@@ -331,7 +329,10 @@ const Player: FC = () => {
               setShareModalVisible(false)
             }}
           >
-            <button>点击复制</button>
+            <button
+              className='copy-button'>
+              点击复制
+            </button>
           </CopyToClipboard>
         </div>
         <div>
@@ -342,12 +343,14 @@ const Player: FC = () => {
               setShareModalVisible(false)
             }}
           >
-            <button>
+            <button
+              className='copy-button'>
               点击复制
             </button>
           </CopyToClipboard>
         </div>
         <button
+          className='close-button'
           onClick={() => {
             setShareModalVisible(false)
           }}
@@ -380,6 +383,7 @@ const Player: FC = () => {
             })}
         </div>
         <button
+          className='close-button'
           onClick={() => {
             setSubtitleFileVisible(false)
           }}
