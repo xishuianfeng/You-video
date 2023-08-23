@@ -213,13 +213,18 @@ const Player: FC = () => {
           }}
         >
           <div className="first-row">
-            <button className="left-buttons"
-              onClick={() => {
-                setShareModalVisible(true)
-              }}
-            >
-              分享画面
-            </button>
+
+            {peerStore.localPeerId
+              ? <button className="left-buttons"
+                onClick={() => {
+                  setShareModalVisible(true)
+                }}
+              >
+                分享画面
+              </button>
+              : <div className="left-buttons"></div>
+            }
+
             <div className="center-buttons">
               <button>上一集</button>
               <button

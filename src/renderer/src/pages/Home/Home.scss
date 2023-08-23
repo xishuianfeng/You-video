@@ -3,6 +3,7 @@
     background-color: #fff;
     margin-left: 10px;
     padding: 3px;
+    cursor: pointer;
 
     &:hover {
       background-color: #aaa;
@@ -46,6 +47,7 @@
 }
 
 .modalButton {
+  cursor: pointer;
   margin-top: 10px;
   background-color: lightcyan;
   margin-right: 10px;

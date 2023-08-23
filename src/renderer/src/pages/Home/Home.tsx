@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import useSystemInfoStore from '@renderer/store/systemInfoStore'
 import usePlaylistStore from '@renderer/store/playlistStore'
+import usePeerStore from '@renderer/store/peerStore'
 
 interface IProps { }
 
@@ -12,6 +13,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   const navigator = useNavigate()
   const playlistStore = usePlaylistStore()
   const systemInfoStore = useSystemInfoStore()
+  const peerStore = usePeerStore()
   const gotoPlaylistDetailPage = (folderPath: string) => {
     navigator(`/playlist-detail/${encodeURIComponent(folderPath)}`)
   }
@@ -25,6 +27,14 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
+
+      {peerStore.localPeerId === ''
+        ? <div className='connection-status'>
+          未连接,无法共享视频(或加入视频)
+        </div>
+        : <div className='connection-status'>
+          Peer已连接
+        </div>}
 
       <main className='playlists'>
         {playlistStore.playlistLocations.map((location) => {
