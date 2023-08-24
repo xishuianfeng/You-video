@@ -155,21 +155,6 @@ const Player: FC = () => {
     }
   }, [subtitleFilePaths])
 
-  //  首位导航栏显示  
-  useEffect(() => {
-    const onMouseMove = () => {
-      setControlsVisible(true)
-    }
-    const onMouseLeave = () => {
-      setControlsVisible(false)
-    }
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseleave', onMouseLeave)
-    return () => {
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseleave', onMouseLeave)
-    }
-  }, [])
 
   //  监听 空格 方向键（← →） keydown事件 
   const keydownEvent = useMemoizedFn((event) => {
@@ -243,28 +228,37 @@ const Player: FC = () => {
 
       <div className="control-layer">
         <header
+          onMouseEnter={() => {
+            setControlsVisible(true)
+          }}
+          onMouseLeave={() => {
+            setControlsVisible(false)
+          }}
           className="navigation-bar-wrapper"
           style={{
             opacity: controlsVisible ? 1 : 0,
-            pointerEvents: controlsVisible ? 'all' : 'none',
           }}
         >
           <NavigationBar
-            style={{ backgroundColor: 'rgba(38,40,52,0.8)' }}
+            style={{ backgroundColor: 'rgba(38,40,52,0.5)' }}
             backButton={<Left style={{ color: 'whitesmoke' }} />}
           />
         </header>
 
         <footer
+          onMouseEnter={() => {
+            setControlsVisible(true)
+          }}
+          onMouseLeave={() => {
+            setControlsVisible(false)
+          }}
           className="control-bar"
           style={{
             opacity: controlsVisible ? 1 : 0,
-            pointerEvents: controlsVisible ? 'all' : 'none',
           }}
         >
 
           <div className='row'>
-
             {peerStore.localPeerId
               ? <button className="left-buttons"
                 onClick={() => {
@@ -311,8 +305,7 @@ const Player: FC = () => {
                 <div
                   className="done"
                   style={{
-                    transform: `translateX(${(progress.currentTime / progress.duration) * 100
-                      }%)`,
+                    transform: `translateX(${(progress.currentTime / progress.duration) * 100}%)`,
                   }}
                 />
                 {hoverIndicatorVisible && (
@@ -362,7 +355,7 @@ const Player: FC = () => {
       >
         <div className='share-title'>复制id或链接，将当前画面分享给ta。</div>
         <div>
-          {peerStore.localPeerId}
+          id：{peerStore.localPeerId}
           <CopyToClipboard
             text={peerStore.localPeerId}
             onCopy={() => {
@@ -376,7 +369,7 @@ const Player: FC = () => {
           </CopyToClipboard>
         </div>
         <div>
-          http://localhost:5173?remotePeerId={peerStore.localPeerId}
+          链接：http://localhost:5173?remotePeerId={peerStore.localPeerId}
           <CopyToClipboard
             text={`http://localhost:5173?remotePeerId=${peerStore.localPeerId}`}
             onCopy={() => {
