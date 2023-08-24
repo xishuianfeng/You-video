@@ -1,7 +1,5 @@
-import { app, shell, BrowserWindow, dialog } from 'electron'
-import { join } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import { app, BrowserWindow } from 'electron'
+import { electronApp, is } from '@electron-toolkit/utils'
 import ipcMiddleware from '@main/middlewares/ipc'
 import { AppMiddleware } from './middlewares/types'
 import protocolMiddleware from './middlewares/protocol'
@@ -33,7 +31,6 @@ if (is.dev) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-
   // Set app user model id for windows
   electronApp.setAppUserModelId('peer-video-player')
 

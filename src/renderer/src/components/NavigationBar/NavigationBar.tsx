@@ -37,7 +37,7 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
       {extra}
       <div
         className='close-button'
-        onClick={() => { }}
+        onClick={() => { window.api.appIpc.emitCloseWindow() }}
       >
         <Close theme="outline" size="24" fill="#ccc" />
       </div>

@@ -123,21 +123,16 @@ const generateSubtitle = async (params: {
 }) => {
 
   const { filePath, subtitleLength, outDir } = params
-  console.log(subtitleLength);
 
   const promises: Array<Promise<string>> = []
   for (let i = 0; i < subtitleLength; i++) {
-    console.log(2);
-
     const parsedFilePath = path.parse(filePath)
     const outputPath = path.join(outDir, `${parsedFilePath.name}_${i}.vtt`)
     const isExist = fsExtra.pathExistsSync(outputPath)
     if (isExist) {
-      console.log('字幕文件生成，跳过文件', outputPath)
       promises.push(Promise.resolve(outputPath))
       continue
     }
-
     const promise = new Promise<string>((resolve, reject) => {
       ffmpeg(filePath)
         .outputOption([`-map 0:s:${i}`])

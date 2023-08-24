@@ -35,3 +35,8 @@ declare namespace VideoIpc {
     subtitleFilePaths: string[]
   }
 }
+
+declare namespace AppIpc {
+  export type CloseWindowReq = {} | void
+  export type CloseWindowRes = void
+}

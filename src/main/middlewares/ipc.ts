@@ -6,6 +6,7 @@ import appDataDb, { appConfigDbPath } from '@main/utils/lowdb'
 import { SUPPORTED_VIDEO_EXTENSIONS } from '@main/consts'
 import fileUtils from '@main/utils/file'
 import videoIpc from '@main/ipc-events/video'
+import appIpc from '@main/ipc-events/app'
 import path from 'path'
 
 const tempDir = path.join(app.getPath('temp'), app.name)
@@ -14,6 +15,10 @@ const ipcMiddleware: AppMiddleware = {
   when: 'all',
   apply() {
     app.whenReady().then(() => {
+      appIpc.closeWindow(async () => {
+        return app.quit()
+      })
+
       localFileIpc.onAddLocalFolder(async () => {
         const { canceled, filePaths } = await dialog.showOpenDialog({
           title: '添加一个带有视频文件的文件夹',
@@ -67,7 +72,6 @@ const ipcMiddleware: AppMiddleware = {
           SUPPORTED_VIDEO_EXTENSIONS,
         )
       })
-
     })
 
     videoIpc.onSubtitleGenerate(async (data, _win) => {
@@ -85,7 +89,6 @@ const ipcMiddleware: AppMiddleware = {
     systemInfoIpc.onPlatFrom((_data, _win) => {
       return process.platform
     })
-
   }
 }
 
