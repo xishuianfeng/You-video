@@ -6,6 +6,7 @@ import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import useSystemInfoStore from '@renderer/store/systemInfoStore'
 import usePlaylistStore from '@renderer/store/playlistStore'
 import usePeerStore from '@renderer/store/peerStore'
+import { Connection, FolderOpen, LinkInterrupt } from '@icon-park/react'
 
 interface IProps { }
 
@@ -27,14 +28,43 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
-
       {peerStore.localPeerId === ''
         ? <div className='connection-status'>
+          <LinkInterrupt theme="outline" size="24" fill="#ccc" />
           未连接,无法共享视频(或加入视频)
         </div>
         : <div className='connection-status'>
+          <Connection className='top-icon' theme="outline" size="24" fill="#ccc" />
           Peer已连接
         </div>}
+
+      <button
+        className='topButton'
+        onClick={async () => {
+          const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
+          if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
+            playlistStore.pushPlaylistLocations(addedPlaylistLocation)
+          }
+        }}>
+        添加文件夹
+      </button>
+
+      {systemInfoStore.isDev && (
+        <button
+          className='topButton'
+          onClick={() => {
+            window.api.fileIpc.emitRevealDbfile()
+          }}>
+          打开db文件
+        </button>
+      )}
+
+      <button
+        className='topButton'
+        onClick={() => { onJoinSessionClick() }}>
+        观看他人视频
+      </button>
+
 
       <main className='playlists'>
         {playlistStore.playlistLocations.map((location) => {
@@ -42,14 +72,17 @@ const Home: React.FunctionComponent<IProps> = (props) => {
           return (
             <article
               className='playlist'
-              onClick={() => {
-                if (folderPath) {
-                  gotoPlaylistDetailPage(folderPath)
-                }
-              }}
               key={folderPath}>
-              <div className='folder-path'>
-                <div className='path-text'>{folderPath}</div>
+              <div
+                onClick={() => {
+                  if (folderPath) {
+                    gotoPlaylistDetailPage(folderPath)
+                  }
+                }} className='folder-path'>
+                <FolderOpen className='folder-icon' theme="outline" size="24" fill="#fff" />
+                <div className='path-text'>
+                  {folderPath}
+                </div>
                 <button
                   className='delete-button'
                   onClick={async (event) => {
@@ -70,33 +103,6 @@ const Home: React.FunctionComponent<IProps> = (props) => {
           )
         })}
       </main>
-
-      <button
-        className='bottomButton'
-        onClick={async () => {
-          const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
-          if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
-            playlistStore.pushPlaylistLocations(addedPlaylistLocation)
-          }
-        }}>
-        选择文件夹
-      </button>
-
-      {systemInfoStore.isDev && (
-        <button
-          className='bottomButton'
-          onClick={() => {
-            window.api.fileIpc.emitRevealDbfile()
-          }}>
-          打开db文件
-        </button>
-      )}
-
-      <button
-        className='bottomButton'
-        onClick={() => { onJoinSessionClick() }}>
-        观看他人视频
-      </button>
 
       <Modal
         isOpen={joinSessionModalVisible}

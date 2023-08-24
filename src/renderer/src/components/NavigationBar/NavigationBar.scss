@@ -5,16 +5,15 @@
   // padding: 10px 15px;
   height: 40px;
   -webkit-app-region: drag;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(193, 175, 175, 0.4);
 
-  @media (prefers-color-scheme: dark) {
-    background-color: rgba(255, 255, 255, 0.4);
-  }
-
+  .close-button,
   .back-button {
     cursor: pointer;
     display: inline-flex;
     -webkit-app-region: no-drag;
     padding: 10px;
+    height: 20px;
   }
+
 }

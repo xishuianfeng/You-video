@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import classnames from 'classnames'
 import { useAsyncEffect, useFavicon, useFullscreen, useMemoizedFn } from 'ahooks'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
-import { FullScreenOne, Left, List, Pause, PlayOne, Share, ShareOne } from '@icon-park/react'
+import { FullScreenOne, Left, List, Pause, PlayOne, ShareOne } from '@icon-park/react'
 import { useImmer } from 'use-immer'
 import usePeerStore from '@renderer/store/peerStore'
 import { MediaConnection } from 'peerjs'
@@ -185,7 +185,7 @@ const Player: FC = () => {
   }, [])
 
   //  视图相关 State
-  const [controlsVisible, setControlsVisible] = useState(true)
+  const [controlsVisible, setControlsVisible] = useState(false)
   const [hoverIndicatorVisible, setHoverIndicatorVisible] = useState(true)
   const [hoverIndicatorPercent, setHoverIndicatorPercent] = useState(0)
   const [shareModalVisible, setShareModalVisible] = useState(false)
@@ -228,13 +228,13 @@ const Player: FC = () => {
 
       <div className="control-layer">
         <header
+          className="navigation-bar-wrapper"
           onMouseEnter={() => {
             setControlsVisible(true)
           }}
           onMouseLeave={() => {
             setControlsVisible(false)
           }}
-          className="navigation-bar-wrapper"
           style={{
             opacity: controlsVisible ? 1 : 0,
           }}

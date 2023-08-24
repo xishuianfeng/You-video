@@ -1,10 +1,10 @@
 import React, { CSSProperties, ReactNode, useEffect, useState } from 'react'
-import './NavigationBar.scss'
-import { Left } from '@icon-park/react'
 import { useNavigate } from 'react-router-dom'
+import './NavigationBar.scss'
+import { Close, Left } from '@icon-park/react'
 
 interface IProps {
-  style?: CSSProperties,
+  style?: CSSProperties
   backButton?: ReactNode
   backButtonVisible?: boolean
   extra?: ReactNode
@@ -22,17 +22,25 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
   const navigate = useNavigate()
 
   return (
-    <div className='navigate-bar' style={{ opacity, ...style }}>
+    <div className="navigation-bar" style={{ opacity, ...style }}>
       {backButtonVisible ? (
         <div
-          className='back-button'
+          className="back-button"
           onClick={() => {
             navigate(-1)
-          }}>
+          }}
+        >
           {backButton}
         </div>
-      ) : null}
+      ) : <div></div>}
+
       {extra}
+      <div
+        className='close-button'
+        onClick={() => { }}
+      >
+        <Close theme="outline" size="24" fill="#ccc" />
+      </div>
     </div>
   )
 }

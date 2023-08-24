@@ -21,8 +21,8 @@ export function createWindow(options?: { devUrl?: string, url?: string }) {
     height: 600,
     show: false,
     autoHideMenuBar: true,
-    // titleBarOverlay: false,
-    // titleBarStyle: 'hidden',
+    titleBarOverlay: false,
+    titleBarStyle: 'hidden',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),

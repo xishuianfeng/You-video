@@ -1,9 +1,20 @@
 .home {
-  .bottomButton {
+
+  .connection-status {
+    margin: 20px;
+    font-size: 36px;
+
+    .top-icon {
+      margin-right: 10px;
+    }
+  }
+
+  .topButton {
     background-color: #fff;
     margin-left: 10px;
     padding: 3px;
     cursor: pointer;
+    margin-bottom: 20px;
 
     &:hover {
       background-color: #aaa;
@@ -13,27 +24,42 @@
   .playlists {
     .playlist {
       display: flex;
-      cursor: pointer;
       padding: 10px;
 
+
       .folder-path {
+        cursor: pointer;
         display: flex;
         align-items: center;
+        background-color: rgba(78, 185, 253);
+        height: 50px;
+        border-radius: 25px 25px 25px 25px;
+        font-size: 1.2em;
+
+        .folder-icon {
+          margin-left: 10px;
+        }
+
+        .path-text {
+          padding: 20px;
+          color: #fff;
+        }
 
         .delete-button {
-          color: #FFF;
           opacity: 0;
           transition: opacity ease 0.2s;
-          margin-left: 10px;
-          padding: 2px;
+          margin-right: 5px;
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          color: #FFF;
+          background-color: #555;
 
-          &:hover {
-            background-color: #555;
-          }
         }
 
         &:hover .delete-button {
           opacity: 1;
+
         }
       }
     }
