@@ -7,7 +7,7 @@ import useSystemInfoStore from '@renderer/store/systemInfoStore'
 import usePlaylistStore from '@renderer/store/playlistStore'
 import usePeerStore from '@renderer/store/peerStore'
 import { Connection, FolderOpen, LinkInterrupt } from '@icon-park/react'
-
+import logo from '../../assets/logo.png'
 interface IProps { }
 
 const Home: React.FunctionComponent<IProps> = (props) => {
@@ -28,81 +28,94 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
-      {peerStore.localPeerId === ''
-        ? <div className='connection-status'>
-          <LinkInterrupt theme="outline" size="24" fill="#ccc" />
-          未连接,无法共享视频(或加入视频)
+
+      <div className='home-wrapper'>
+        <div className='home-left'>
+          <img className='logo' src={logo} />
         </div>
-        : <div className='connection-status'>
-          <Connection className='top-icon' theme="outline" size="24" fill="#ccc" />
-          Peer已连接
-        </div>}
 
-      <button
-        className='topButton'
-        onClick={async () => {
-          const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
-          if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
-            playlistStore.pushPlaylistLocations(addedPlaylistLocation)
-          }
-        }}>
-        添加文件夹
-      </button>
+        <div className='home-right'>
 
-      {systemInfoStore.isDev && (
-        <button
-          className='topButton'
-          onClick={() => {
-            window.api.fileIpc.emitRevealDbfile()
-          }}>
-          打开db文件
-        </button>
-      )}
+          {peerStore.localPeerId === ''
+            ? <div className='connection-status'>
+              <LinkInterrupt theme="outline" size="24" fill="#65c7bf" />
+              未连接,无法共享视频(或加入视频)
+            </div>
+            : <div className='connection-status'>
+              <Connection className='top-icon' theme="outline" size="24" fill="#65c7bf" />
+              Peer已连接
+            </div>}
 
-      <button
-        className='topButton'
-        onClick={() => { onJoinSessionClick() }}>
-        观看他人视频
-      </button>
+          <button
+            className='top-button'
+            onClick={async () => {
+              const addedPlaylistLocation = await window.api.fileIpc.emitAddFolder()
+              if (addedPlaylistLocation !== null && addedPlaylistLocation !== undefined) {
+                playlistStore.pushPlaylistLocations(addedPlaylistLocation)
+              }
+            }}>
+            添加文件夹
+          </button>
 
+          {systemInfoStore.isDev && (
+            <button
+              className='top-button'
+              onClick={() => {
+                window.api.fileIpc.emitRevealDbfile()
+              }}>
+              打开db文件
+            </button>
+          )}
 
-      <main className='playlists'>
-        {playlistStore.playlistLocations.map((location) => {
-          const { folderPath } = location
-          return (
-            <article
-              className='playlist'
-              key={folderPath}>
-              <div
-                onClick={() => {
-                  if (folderPath) {
-                    gotoPlaylistDetailPage(folderPath)
-                  }
-                }} className='folder-path'>
-                <FolderOpen className='folder-icon' theme="outline" size="24" fill="#fff" />
-                <div className='path-text'>
-                  {folderPath}
-                </div>
-                <button
-                  className='delete-button'
-                  onClick={async (event) => {
-                    event.stopPropagation()
-                    if (!folderPath) {
-                      return
-                    }
-                    await window.api.fileIpc.emitDeletePlaylistLocation(location)
-                    const { playlistLocations: latestPlaylistLocations } = await window.api.fileIpc.emitGetPlaylistLocations()
-                    playlistStore.setPlaylistLocations(
-                      latestPlaylistLocations
-                    )
-                  }}>
-                  删除
-                </button>
-              </div>
-            </article>
-          )
-        })}
-      </main>
+          <button
+            className='top-button'
+            onClick={() => { onJoinSessionClick() }}>
+            观看他人视频
+          </button>
+
+          <main className='playlists'>
+            {playlistStore.playlistLocations.map((location) => {
+              const { folderPath } = location
+              return (
+                <article
+                  className='playlist'
+                  key={folderPath}>
+                  <div
+                    onClick={() => {
+                      if (folderPath) {
+                        gotoPlaylistDetailPage(folderPath)
+                      }
+                    }}
+                    className='folder-path'
+                  >
+                    <FolderOpen className='folder-icon' theme="outline" size="24" fill="#65c7bf" />
+                    <div className='path-text'>
+                      {folderPath}
+                    </div>
+                    <button
+                      className='delete-button'
+                      onClick={async (event) => {
+                        event.stopPropagation()
+                        if (!folderPath) {
+                          return
+                        }
+                        await window.api.fileIpc.emitDeletePlaylistLocation(location)
+                        const { playlistLocations: latestPlaylistLocations } = await window.api.fileIpc.emitGetPlaylistLocations()
+                        playlistStore.setPlaylistLocations(
+                          latestPlaylistLocations
+                        )
+                      }}>
+                      删除
+                    </button>
+                  </div>
+                </article>
+              )
+            })}
+          </main>
+        </div>
+
+      </div>
+
 
       <Modal
         isOpen={joinSessionModalVisible}

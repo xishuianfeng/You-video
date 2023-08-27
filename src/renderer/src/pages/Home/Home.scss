@@ -1,65 +1,88 @@
 .home {
+  .home-wrapper {
+    display: flex;
+    height: 100vh;
+    background-color: rgba(223, 228, 234);
 
-  .connection-status {
-    margin: 20px;
-    font-size: 36px;
 
-    .top-icon {
-      margin-right: 10px;
+    .home-left {
+      background: linear-gradient(180deg, #909090 0%, #e4f3ff 100%);
+      background-blend-mode: soft-light;
+      background-repeat: no-repeat;
+      border-right: 2px solid rgba(185, 190, 200, 1.0);
+
+      .logo {
+        padding-top: 30px;
+        width: 30vw;
+      }
     }
-  }
 
-  .topButton {
-    background-color: #fff;
-    margin-left: 10px;
-    padding: 3px;
-    cursor: pointer;
-    margin-bottom: 20px;
+    .home-right {
+      padding-top: 20px;
 
-    &:hover {
-      background-color: #aaa;
-    }
-  }
+      .connection-status {
+        margin: 20px;
+        font-size: 36px;
 
-  .playlists {
-    .playlist {
-      display: flex;
-      padding: 10px;
+        .top-icon {
+          margin-right: 10px;
+        }
+      }
 
-
-      .folder-path {
+      .top-button {
+        margin-left: 10px;
+        border: rgba($color: #000000, $alpha: 0);
+        background-color: rgba($color: #000000, $alpha: 0);
+        padding: 3px;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        background-color: rgba(78, 185, 253);
-        height: 50px;
-        border-radius: 25px 25px 25px 25px;
-        font-size: 1.2em;
+        margin-bottom: 20px;
 
-        .folder-icon {
-          margin-left: 10px;
+        &:hover {
+          background-color: #aaa;
         }
+      }
 
-        .path-text {
-          padding: 20px;
-          color: #fff;
-        }
+      .playlists {
+        .playlist {
+          display: flex;
+          padding: 10px;
 
-        .delete-button {
-          opacity: 0;
-          transition: opacity ease 0.2s;
-          margin-right: 5px;
-          height: 40px;
-          width: 40px;
-          border-radius: 50%;
-          color: #FFF;
-          background-color: #555;
+          .folder-path {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            height: 50px;
+            border-radius: 25px 25px 25px 25px;
+            font-size: 1.2em;
+            max-width: 60vw;
 
-        }
+            .folder-icon {
+              margin-left: 10px;
+            }
 
-        &:hover .delete-button {
-          opacity: 1;
+            .path-text {
+              padding: 20px;
+              color: #000;
+            }
 
+
+            .delete-button {
+              cursor: pointer;
+              opacity: 0;
+              transition: opacity ease 0.2s;
+              margin-right: 5px;
+              height: 40px;
+              border-radius: 50%;
+              color: #FFF;
+              background-color: #555;
+              min-width: 40px;
+            }
+
+            &:hover .delete-button {
+              opacity: 1;
+            }
+
+          }
         }
       }
     }
@@ -78,7 +101,6 @@
   background-color: lightcyan;
   margin-right: 10px;
   padding: 5px;
-  border: solid #555 2px;
 
   &:hover {
     background-color: #aaa;

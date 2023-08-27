@@ -12,7 +12,7 @@ interface IProps {
 
 const NavigationBar: React.FunctionComponent<IProps> = (props) => {
   const {
-    backButton = <Left style={{ fontSize: 20 }} />,
+    backButton = <Left style={{ fontSize: 20 }} fill="#65c7bf" />,
     style,
     backButtonVisible = true,
     extra,
@@ -23,23 +23,26 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
 
   return (
     <div className="navigation-bar" style={{ opacity, ...style }}>
-      {backButtonVisible ? (
-        <div
-          className="back-button"
-          onClick={() => {
-            navigate(-1)
-          }}
-        >
-          {backButton}
+      <div className='nav-left'>
+        {backButtonVisible ? (
+          <div
+            className="back-button"
+            onClick={() => {
+              navigate(-1)
+            }}
+          >
+            {backButton}
+          </div>) : <div></div>}
+        <div className='nav-bar-text'>
+          侑影音，可分享的视频播放器
         </div>
-      ) : <div></div>}
+      </div>
 
-      {extra}
       <div
         className='close-button'
         onClick={() => { window.api.appIpc.emitCloseWindow() }}
       >
-        <Close theme="outline" size="24" fill="#ccc" />
+        <Close theme="outline" size="24" fill="#65c7bf" />
       </div>
     </div>
   )

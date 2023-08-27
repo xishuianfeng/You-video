@@ -1,4 +1,11 @@
 .playlist-detail {
+  background-color: rgba(223, 228, 234, 1.0);
+
+  .playlist-top {
+    background-color: rgba(155, 156, 158);
+    height: 40px;
+  }
+
   .folder-path {
     padding-bottom: 20px;
   }
@@ -7,19 +14,14 @@
     .video-item {
       display: flex;
       padding: 10px;
+      align-items: center;
       cursor: pointer;
+      border-top: 2px solid rgba(185, 190, 200, 1.0);
 
-      @media (prefers-color-scheme: dark) {
-        &:hover {
-          background-color: rgb(28, 28, 28);
-        }
+      &:hover {
+        background-color: rgba(101, 199, 191, 0.2);
       }
 
-      @media (prefers-color-scheme: light) {
-        &:hover {
-          background-color: #f2f2f2;
-        }
-      }
 
       .video-thumbnail {
         width: 160px;
@@ -29,6 +31,7 @@
 
       .filename {
         margin-left: 20px;
+        color: #000;
       }
     }
   }

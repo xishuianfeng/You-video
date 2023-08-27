@@ -40,6 +40,7 @@ const PlaylistDetail: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='playlist-detail'>
       <NavigationBar />
+      <div className='playlist-top'></div>
       <h1 className='folder-path'>{pathParams.folderPath}</h1>
       <div className='playlist'>
         {[...files].sort((a, b) => {

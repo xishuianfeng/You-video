@@ -33,6 +33,8 @@
       button {
         cursor: pointer;
         margin: 0 10px;
+        background-color: rgba(0, 0, 0, 0);
+        border: rgba($color: #000000, $alpha: 0)
       }
 
       .row {
@@ -53,6 +55,7 @@
 
         .icon {
           margin-top: 5px;
+          background-color: rgba($color: #000000, $alpha: 0)
         }
 
         .progress-wrapper {
