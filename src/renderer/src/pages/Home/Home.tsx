@@ -32,7 +32,6 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
-      <Versions />
       <div className='home-wrapper'>
         <div className='home-left'>
           <img className='logo' src={logo} />
@@ -86,24 +85,19 @@ const Home: React.FunctionComponent<IProps> = (props) => {
                   key={folderPath}>
                   <div
                     onClick={() => {
-                      console.log(index);
-
-                      flushSync(() => {
-                      })
-
+                      animateElementIndexStore.setPlaylistLocationIndex(index)
                       document.startViewTransition(() => {
+                        animateElementIndexStore.playlistIndex
                         flushSync(() => {
-                          animateElementIndexStore.setPlaylistLocationIndex(index)
                           if (folderPath) {
                             gotoPlaylistDetailPage(folderPath)
                           }
                         })
                       })
                     }}
-                    className={`folder-path 
-                      ${index === animateElementIndexStore.playlistLocationIndex
-                        ? 'locationAnimate'
-                        : ''}`}
+                    className={`folder-path ${index === animateElementIndexStore.playlistLocationIndex
+                      ? 'locationAnimate'
+                      : undefined}`}
                   >
                     <FolderOpen className='folder-icon' theme="outline" size="24" fill="#65c7bf" />
                     <div className='path-text'>
