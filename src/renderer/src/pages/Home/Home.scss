@@ -47,6 +47,11 @@
           display: flex;
           padding: 10px;
 
+          .locationAnimate {
+            border: solid red 3px;
+            viewTransitionName: playlistLocation
+          }
+
           .folder-path {
             cursor: pointer;
             display: flex;

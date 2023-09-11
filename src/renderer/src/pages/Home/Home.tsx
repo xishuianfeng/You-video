@@ -8,6 +8,9 @@ import usePlaylistStore from '@renderer/store/playlistStore'
 import usePeerStore from '@renderer/store/peerStore'
 import { Connection, FolderOpen, LinkInterrupt } from '@icon-park/react'
 import logo from '../../assets/logo.png'
+import { flushSync } from 'react-dom'
+import useAnimateElementIndexStore from '@renderer/store/animateElementIndexStore'
+import Versions from '@renderer/components/Versions'
 interface IProps { }
 
 const Home: React.FunctionComponent<IProps> = (props) => {
@@ -15,6 +18,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   const playlistStore = usePlaylistStore()
   const systemInfoStore = useSystemInfoStore()
   const peerStore = usePeerStore()
+  const animateElementIndexStore = useAnimateElementIndexStore()
   const gotoPlaylistDetailPage = (folderPath: string) => {
     navigator(`/playlist-detail/${encodeURIComponent(folderPath)}`)
   }
@@ -28,7 +32,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
   return (
     <div className='home'>
       <NavigationBar backButtonVisible={false} />
-
+      <Versions />
       <div className='home-wrapper'>
         <div className='home-left'>
           <img className='logo' src={logo} />
@@ -74,7 +78,7 @@ const Home: React.FunctionComponent<IProps> = (props) => {
           </button>
 
           <main className='playlists'>
-            {playlistStore.playlistLocations.map((location) => {
+            {playlistStore.playlistLocations.map((location, index) => {
               const { folderPath } = location
               return (
                 <article
@@ -82,11 +86,24 @@ const Home: React.FunctionComponent<IProps> = (props) => {
                   key={folderPath}>
                   <div
                     onClick={() => {
-                      if (folderPath) {
-                        gotoPlaylistDetailPage(folderPath)
-                      }
+                      console.log(index);
+
+                      flushSync(() => {
+                      })
+
+                      document.startViewTransition(() => {
+                        flushSync(() => {
+                          animateElementIndexStore.setPlaylistLocationIndex(index)
+                          if (folderPath) {
+                            gotoPlaylistDetailPage(folderPath)
+                          }
+                        })
+                      })
                     }}
-                    className='folder-path'
+                    className={`folder-path 
+                      ${index === animateElementIndexStore.playlistLocationIndex
+                        ? 'locationAnimate'
+                        : ''}`}
                   >
                     <FolderOpen className='folder-icon' theme="outline" size="24" fill="#65c7bf" />
                     <div className='path-text'>
