@@ -202,6 +202,8 @@ const Player: FC = () => {
           onDoubleClick={() => {
             toggleFullscreen()
           }}
+
+          style={{ viewTransitionName: 'fileAnimate' }}
           // onContextMenu={() => { togglePlayState() }}
           onClick={() => { togglePlayState() }}
         >

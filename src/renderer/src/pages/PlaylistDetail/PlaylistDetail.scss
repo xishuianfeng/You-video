@@ -12,6 +12,10 @@
   }
 
   .playlist {
+    .fileAnimate {
+      view-transition-name: fileAnimate;
+    }
+
     .video-item {
       display: flex;
       padding: 10px;
@@ -19,10 +23,11 @@
       cursor: pointer;
       border-top: 2px solid rgba(185, 190, 200, 1.0);
 
+
+
       &:hover {
         background-color: rgba(101, 199, 191, 0.2);
       }
-
 
       .video-thumbnail {
         width: 160px;

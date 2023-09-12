@@ -87,7 +87,6 @@ const Home: React.FunctionComponent<IProps> = (props) => {
                     onClick={() => {
                       animateElementIndexStore.setPlaylistLocationIndex(index)
                       document.startViewTransition(() => {
-                        animateElementIndexStore.playlistIndex
                         flushSync(() => {
                           if (folderPath) {
                             gotoPlaylistDetailPage(folderPath)

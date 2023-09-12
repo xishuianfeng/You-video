@@ -48,7 +48,6 @@
           padding: 10px;
 
           .locationAnimate {
-            border: solid red 3px;
             view-transition-name: playlistLocation;
           }
 
@@ -110,4 +109,9 @@
   &:hover {
     background-color: #aaa;
   }
+}
+
+::view-transition-old(playlistLocation) {
+  height: 20vh;
+  width: 50vw;
 }

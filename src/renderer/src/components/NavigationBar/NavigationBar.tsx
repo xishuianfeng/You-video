@@ -2,12 +2,14 @@ import React, { CSSProperties, ReactNode, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './NavigationBar.scss'
 import { Close, Left } from '@icon-park/react'
+import { flushSync } from 'react-dom'
 
 interface IProps {
   style?: CSSProperties
   backButton?: ReactNode
   backButtonVisible?: boolean
   extra?: ReactNode
+  router?: string
 }
 
 const NavigationBar: React.FunctionComponent<IProps> = (props) => {
@@ -16,6 +18,7 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
     style,
     backButtonVisible = true,
     extra,
+    router,
   } = props
   const [opacity, setOpacity] = useState(1)
 
@@ -28,7 +31,16 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
           <div
             className="back-button"
             onClick={() => {
-              navigate(-1)
+              document.startViewTransition(() => {
+                flushSync(() => {
+                  // navigate('/')
+                  if (router) {
+                    navigate(router)
+                  } else {
+                    navigate(-1)
+                  }
+                })
+              })
             }}
           >
             {backButton}

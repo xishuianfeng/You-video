@@ -28,6 +28,9 @@
     -webkit-app-region: no-drag;
     padding: 10px;
     height: 20px;
-  }
 
+    &:hover {
+      background-color: rgba(170, 170, 170, 0.7);
+    }
+  }
 }
