@@ -1,8 +1,22 @@
 {
   "files": [],
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }],
-  "include": ["./shared-types/**/*.d.ts"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.web.json"
+    }
+  ],
+  "include": [
+    "./shared-types/**/*.d.ts",
+  ],
+  "types": [
+    "navigation-api-types"
+  ],
   "compilerOptions": {
-    "lib": ["ESNext"]
+    "lib": [
+      "ESNext"
+    ],
   }
 }
