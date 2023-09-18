@@ -147,9 +147,13 @@ const Home: React.FunctionComponent<IProps> = (props) => {
               const search = new URLSearchParams({
                 remotePeerId
               }).toString()
-              navigator({
-                pathname: '/video/follower',
-                search
+              document.startViewTransition(() => {
+                flushSync(() => {
+                  navigator({
+                    pathname: '/video/follower',
+                    search
+                  })
+                })
               })
             }}
           >

@@ -22,21 +22,7 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
   const [opacity, setOpacity] = useState(1)
 
   const navigate = useNavigate()
-  useEffect(() => {
-    const navigateEvent = (event) => {
-      if (event.navigationType === 'traverse') {
-        event.intercept()
-        console.log(event)
-      }
-      // console.log(event.);
-    }
-    //@ts-ignore
-    window.navigation.addEventListener('navigate', navigateEvent)
-    return () => {
-      //@ts-ignore
-      window.navigation.removeEventListener('navigate', navigateEvent)
-    }
-  }, [])
+
   return (
     <div className="navigation-bar" style={{ opacity, ...style }}>
       <div className='nav-left'>
@@ -45,8 +31,11 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
             className="back-button"
             onClick={() => {
               document.startViewTransition(() => {
-                flushSync(() => {
+                return new Promise<void>((resolve) => {
                   navigate(-1)
+                  setTimeout(() => {
+                    resolve()
+                  }, 50)
                 })
               })
             }}
