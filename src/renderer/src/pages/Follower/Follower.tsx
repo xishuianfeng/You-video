@@ -23,7 +23,6 @@ const Follower: React.FunctionComponent<IProps> = (props) => {
     return new Promise<void>((resolve, reject) => {
       const call = peer.call(remotePeerId, createEmptyMediaStream())
 
-
       if (!remotePeerId) { return }
       call.once('stream', (stream) => {
         console.log('remoteStream', stream);
