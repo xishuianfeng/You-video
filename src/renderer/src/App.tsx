@@ -4,6 +4,7 @@ import { useAsyncEffect, usePrevious } from 'ahooks'
 import './App.scss'
 import Modal from 'react-modal'
 import { useLocation } from "react-router-dom"
+import usePeerStore from "./store/peerStore"
 
 Modal.setAppElement('#root')
 Modal.defaultStyles.content = {
@@ -26,16 +27,33 @@ Modal.defaultStyles.overlay = {
 
 const App: FC<PropsWithChildren> = ({ children }) => {
   const playlistStore = usePlaylistStore()
-
+  const peerStore = usePeerStore()
   const location = useLocation()
-  // const previousLocation = usePrevious(location)
+  const previousLocation = usePrevious(location)
 
-  // useEffect(() => {
-  //   console.log(previousLocation);
-  //   console.log(location);
-
-
-  // }, [previousLocation, location])
+  useEffect(() => {
+    if ( // 从列表页 进入 播放页
+      location.pathname === '/video/player' &&
+      previousLocation?.pathname.search('/playlist-detail/') === 0
+    ) {
+      console.log(1);
+      if (peerStore.dataConnection) {
+        peerStore.dataConnection.send(JSON.stringify({
+          type: 'goPlayer'
+        }))
+      }
+    } else if ( //  从播放页 进入 列表页
+      previousLocation?.pathname === '/video/player' &&
+      location.pathname.search('/playlist-detail/') === 0
+    ) {
+      console.log(2);
+      if (peerStore.dataConnection) {
+        peerStore.dataConnection.send(JSON.stringify({
+          type: 'leavePlayer'
+        }))
+      }
+    }
+  }, [previousLocation, location])
 
   useAsyncEffect(async () => {
     const { playlistLocations: latestPlaylistLocations } =

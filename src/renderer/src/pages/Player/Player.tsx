@@ -131,7 +131,10 @@ const Player: FC = () => {
       const subtitle = cue.text
 
       if (peerStore.dataConnection) {
-        peerStore.dataConnection.send(subtitle)
+        peerStore.dataConnection.send(JSON.stringify({
+          type: 'subtitle',
+          subtitle
+        }))
       }
     }
   })

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './assets/index.css'
 import App from './App'
 import router from './router'
-import { RouterProvider, useLocation } from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 
 window.api.videoIpc.openFile(({ url }) => {
   const searchParams = new URLSearchParams({
@@ -13,7 +13,5 @@ window.api.videoIpc.openFile(({ url }) => {
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <App>
-    <RouterProvider router={router} />
-  </App>
+  <RouterProvider router={router} />,
 )
