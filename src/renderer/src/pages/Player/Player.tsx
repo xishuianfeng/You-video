@@ -374,9 +374,9 @@ const Player: FC = () => {
           </CopyToClipboard>
         </div>
         <div>
-          链接：http://localhost:5173?remotePeerId={peerStore.localPeerId}
+          链接：https://you-video.netlify.app?remotePeerId={peerStore.localPeerId}
           <CopyToClipboard
-            text={`http://localhost:5173?remotePeerId=${peerStore.localPeerId}`}
+            text={`https://you-video.netlify.app?remotePeerId=${peerStore.localPeerId}`}
             onCopy={() => {
               setShareModalVisible(false)
             }}
