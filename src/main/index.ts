@@ -20,7 +20,7 @@ const applyMiddleware = ({ apply, when }: AppMiddleware) => {
 applyMiddleware(ipcMiddleware)
 applyMiddleware(protocolMiddleware)
 applyMiddleware(mainWindowMiddleware)
-// applyMiddleware(devWindowMiddleware)
+applyMiddleware(devWindowMiddleware)
 
 if (is.dev) {
   electronDebug()

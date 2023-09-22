@@ -1,8 +1,9 @@
 import { FC, PropsWithChildren, useEffect } from "react"
 import usePlaylistStore from "./store/playlistStore"
-import { useAsyncEffect } from 'ahooks'
+import { useAsyncEffect, usePrevious } from 'ahooks'
 import './App.scss'
 import Modal from 'react-modal'
+import { useLocation } from "react-router-dom"
 
 Modal.setAppElement('#root')
 Modal.defaultStyles.content = {
@@ -25,11 +26,23 @@ Modal.defaultStyles.overlay = {
 
 const App: FC<PropsWithChildren> = ({ children }) => {
   const playlistStore = usePlaylistStore()
+
+  const location = useLocation()
+  // const previousLocation = usePrevious(location)
+
+  // useEffect(() => {
+  //   console.log(previousLocation);
+  //   console.log(location);
+
+
+  // }, [previousLocation, location])
+
   useAsyncEffect(async () => {
     const { playlistLocations: latestPlaylistLocations } =
       await window.api.fileIpc.emitGetPlaylistLocations()
     playlistStore.setPlaylistLocations(latestPlaylistLocations)
   }, [])
+
   return <div id="container">{children}</div>
 }
 

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './assets/index.css'
 import App from './App'
 import router from './router'
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider, useLocation } from 'react-router-dom'
 
 window.api.videoIpc.openFile(({ url }) => {
   const searchParams = new URLSearchParams({
