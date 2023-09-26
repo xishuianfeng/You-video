@@ -1,4 +1,4 @@
-import Peer, { DataConnection, PeerErrorType } from 'peerjs'
+import Peer, { DataConnection } from 'peerjs'
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
