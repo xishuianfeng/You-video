@@ -15,7 +15,7 @@ interface PlaylistStore {
 }
 
 const usePlaylistStore = create(
-  immer<PlaylistStore>((set, get) => {
+  immer<PlaylistStore>((set) => {
     return {
       playlistLocations: [],
 
