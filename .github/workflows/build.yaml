@@ -1,0 +1,94 @@
+name: Peer You Video Player Release
+
+on:
+  push:
+    # 只在拥有 v 开头的 tag 时触发 action
+    tags: ['v*']
+    # branches: ['master']
+
+jobs:
+  # 构建 mac 安装包
+  build-mac:
+    # 在哪个系统上运行 job
+    runs-on: macos-12
+    # 指定 actions (比如actions/checkout) 的操作权限
+    permissions: write-all
+
+    steps:
+      # 切换到目标代码上
+      - uses: actions/checkout@v3
+
+      # 准备 node 版本
+      - uses: actions/setup-node@v3
+        # with 代表给 action 传递的参数
+        with:
+          # 指定使用 16 版本的 node
+          node-version: '16'
+
+      # 开始构建
+      - name: Build
+        # 安装 pnpm
+        # 安装项目依赖
+        # 构建 mac 安装包
+        run: |
+          npm i -g pnpm
+          pnpm install
+          pnpm run build:mac
+
+      # 上传构建产物到中转服务器
+      - uses: actions/upload-artifact@v3
+        with:
+          # 给这次上传的文件取一个名字
+          name: mac-${{github.ref_name}}
+          # 上传哪些文件
+          path: dist/*.dmg
+
+  build-windows:
+    permissions: write-all
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Build
+        run: |
+          npm i -g pnpm
+          pnpm install
+          pnpm run build:win
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-${{github.ref_name}}
+          path: dist/*.exe
+
+  release:
+    runs-on: ubuntu-22.04
+    permissions: write-all
+    needs: [build-mac, build-windows]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: mac-${{github.ref_name}}
+          path: dist
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: windows-${{github.ref_name}}
+          path: dist
+
+      - name: Display structure of downloaded files
+        run: ls dist -R
+
+      - name: Release
+        uses: 'marvinpinto/action-automatic-releases@latest'
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          prerelease: false
+          files: |
+            dist/*.exe
+            dist/*.dmg
