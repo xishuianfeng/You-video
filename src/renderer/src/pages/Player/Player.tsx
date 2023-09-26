@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import './Player.scss'
 import usePlaylistStore from '@renderer/store/playlistStore'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import classnames from 'classnames'
-import { useAsyncEffect, useFavicon, useFullscreen, useMemoizedFn } from 'ahooks'
+import { useAsyncEffect, useFullscreen, useMemoizedFn } from 'ahooks'
 import NavigationBar from '@renderer/components/NavigationBar/NavigationBar'
 import { FullScreenOne, Left, List, Pause, PlayOne, ShareOne } from '@icon-park/react'
 import { useImmer } from 'use-immer'
@@ -17,13 +17,12 @@ const Player: FC = () => {
   const videoRef = useRef<HTMLVideoElement & { captureStream: HTMLCanvasElement['captureStream'] }>(null)
   const trackRef = useRef<Array<HTMLTrackElement>>([])
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const navgiate = useNavigate()
   const peerStore = usePeerStore()
   const peer = peerStore.getPeer()
   const [params, _setSearchParams] = useSearchParams()
   const { filePath, folderPath } = Object.fromEntries(params)
 
-  const [isFullscreen, { enterFullscreen, exitFullscreen, toggleFullscreen }] = useFullscreen(wrapperRef.current, {})
+  const [, { toggleFullscreen }] = useFullscreen(wrapperRef.current, {})
   const togglePlayState = useMemoizedFn(() => {
     if (videoRef.current?.paused) {
       videoRef.current?.play()

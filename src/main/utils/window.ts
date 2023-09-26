@@ -1,6 +1,6 @@
 import { is } from "@electron-toolkit/utils"
 import { BrowserWindow, shell } from "electron"
-import path, { join } from "path"
+import path from "path"
 import icon from '../../../resources/icon.png?asset'
 
 export const DEFAULT_DEV_URL = process.env['ELECTRON_RENDERER_URL']!

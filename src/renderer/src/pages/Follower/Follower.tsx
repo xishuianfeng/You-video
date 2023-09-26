@@ -8,7 +8,7 @@ import { createEmptyMediaStream } from '@renderer/utils/peer'
 
 interface IProps { }
 
-const Follower: React.FunctionComponent<IProps> = (props) => {
+const Follower: React.FunctionComponent<IProps> = () => {
   const [params, setSearchParams] = useSearchParams()
   const peerStore = usePeerStore()
   const serachParams = Object.fromEntries(params) as { remotePeerId: string }

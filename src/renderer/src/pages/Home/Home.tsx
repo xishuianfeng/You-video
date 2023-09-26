@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import './Home.scss'
 import { useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
@@ -10,10 +10,9 @@ import { Connection, FolderOpen, LinkInterrupt } from '@icon-park/react'
 import logo from '../../assets/logo.png'
 import { flushSync } from 'react-dom'
 import useAnimateElementIndexStore from '@renderer/store/animateElementIndexStore'
-import Versions from '@renderer/components/Versions'
 interface IProps { }
 
-const Home: React.FunctionComponent<IProps> = (props) => {
+const Home: React.FunctionComponent<IProps> = () => {
   const navigator = useNavigate()
   const playlistStore = usePlaylistStore()
   const systemInfoStore = useSystemInfoStore()

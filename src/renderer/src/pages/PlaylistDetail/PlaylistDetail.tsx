@@ -9,7 +9,7 @@ import useAnimateElementIndexStore from '@renderer/store/animateElementIndexStor
 
 
 interface IProps { }
-const PlaylistDetail: React.FunctionComponent<IProps> = (props) => {
+const PlaylistDetail: React.FunctionComponent<IProps> = () => {
   const navigate = useNavigate()
   const animateElementIndexStore = useAnimateElementIndexStore()
   const playlistStore = usePlaylistStore()

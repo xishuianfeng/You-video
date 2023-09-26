@@ -19,7 +19,7 @@ const appDataDb = new Low(jsonAdapter, {
 })
 
 export const init = appDataDb.read()
-init.then((res) => {
+init.then(() => {
   console.log('res ==>', appDataDb.data);
 })
 

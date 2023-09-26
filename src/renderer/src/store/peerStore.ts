@@ -13,7 +13,7 @@ interface PeerStore {
 }
 
 const usePeerStore = create(
-  immer<PeerStore>((set, get) => {
+  immer<PeerStore>((set) => {
     return {
       getPeer: () => peer,
       subtitle: '',
@@ -48,7 +48,7 @@ const onDisconnected = () => {
   peer.reconnect()
 }
 const onError = (error: Error) => {
-  const errorWithType = error as PeerJSError
+  // const errorWithType = error as PeerJSError
   console.log('peerjs 错误', error)
 }
 peer.on('open', onOpen)
@@ -58,6 +58,6 @@ peer.on('error', onError)
 
 
 
-type PeerJSError = Error & { type: PeerErrorType }
+// type PeerJSError = Error & { type: PeerErrorType }
 
 export default usePeerStore

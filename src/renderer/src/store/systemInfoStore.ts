@@ -8,7 +8,7 @@ interface SystemInfoStore {
 }
 
 const useSystemInfoStore = create(
-  immer<SystemInfoStore>((set, get) => {
+  immer<SystemInfoStore>((set) => {
     return {
       isDev: process.env.NODE_ENV === 'development',
       platform: 'win32',

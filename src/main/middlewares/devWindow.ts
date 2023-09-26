@@ -1,5 +1,5 @@
 import { AppMiddleware } from "./types";
-import { app, net, protocol } from 'electron'
+import { app } from 'electron'
 import { DEFAULT_DEV_URL, createWindow } from '@main/utils/window'
 
 

@@ -10,7 +10,7 @@ interface animateElementIndexStore {
 }
 
 const useAnimateElementIndexStore = create(
-  immer<animateElementIndexStore>((set, get) => {
+  immer<animateElementIndexStore>((set) => {
     return {
       playlistLocationIndex: 0,
       setPlaylistLocationIndex(index) {
