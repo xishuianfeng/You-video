@@ -26,10 +26,11 @@ jobs:
           node-version: '16'
 
       # 开始解压
-      - name: unzip
+      - name: unzipFfmpeg
         # 解压ffmpeg
         run: | 
           npm i -g pnpm
+          pnpm install
           pnpm add adm-zip
           node macUnzip.js
 
@@ -38,9 +39,7 @@ jobs:
         # 安装 pnpm
         # 安装项目依赖
         # 构建 mac 安装包
-        run: |
-          pnpm install
-          pnpm run build:mac
+        run: pnpm run build:mac
 
       # 上传构建产物到中转服务器
       - uses: actions/upload-artifact@v3
@@ -61,17 +60,16 @@ jobs:
         with:
           node-version: '16'
 
-      - name: unzip
+      - name: unzipFfmpeg
         run: | 
           npm i -g pnpm
+          pnpm install
           pnpm add adm-zip
           node macUnzip.js
 
       - name: Build
-        run: |
-          npm i -g pnpm
-          pnpm install
-          pnpm run build:win
+        run: pnpm run build:win
+
       - uses: actions/upload-artifact@v3
         with:
           name: windows-${{github.ref_name}}
