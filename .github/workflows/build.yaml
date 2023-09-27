@@ -31,7 +31,7 @@ jobs:
         run: | 
           npm i -g pnpm
           pnpm install
-          pnpm add adm-zip
+          pnpm install adm-zip
           node macUnzip.js
 
       # 开始构建
@@ -64,7 +64,7 @@ jobs:
         run: | 
           npm i -g pnpm
           pnpm install
-          pnpm add adm-zip
+          pnpm install adm-zip
           node macUnzip.js
 
       - name: Build
