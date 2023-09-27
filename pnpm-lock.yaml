@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 patchedDependencies:
   node-ffprobe@1.2.2:
     hash: jc4q37zdufax6syjwnpxk32ini
@@ -21,6 +25,9 @@ dependencies:
   '@videojs/themes':
     specifier: ^1.0.1
     version: 1.0.1
+  adm-zip:
+    specifier: ^0.5.10
+    version: registry.npmmirror.com/adm-zip@0.5.10
   ahooks:
     specifier: ^3.7.7
     version: 3.7.7(react@18.2.0)
@@ -4573,6 +4580,13 @@ packages:
       '@types/node': registry.npmmirror.com/@types/node@16.18.21
     optional: true
 
+  registry.npmmirror.com/adm-zip@0.5.10:
+    resolution: {integrity: sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/adm-zip/-/adm-zip-0.5.10.tgz}
+    name: adm-zip
+    version: 0.5.10
+    engines: {node: '>=6.0'}
+    dev: false
+
   registry.npmmirror.com/ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ajv/-/ajv-6.12.6.tgz}
     name: ajv
@@ -5426,7 +5440,3 @@ packages:
     dependencies:
       buffer-crc32: registry.npmmirror.com/buffer-crc32@0.2.13
       fd-slicer: registry.npmmirror.com/fd-slicer@1.1.0
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

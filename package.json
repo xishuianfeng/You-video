@@ -20,12 +20,14 @@
     "build:mac": "npm run clean && electron-vite build && electron-builder --mac --config electron-builder-config.js",
     "build:linux": "npm run clean && electron-vite build && electron-builder --linux --config electron-builder-config.js"
   },
+  "type":"module",
   "dependencies": {
     "@electron-toolkit/preload": "^1.0.3",
     "@electron-toolkit/utils": "^1.0.2",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/wicg-file-system-access": "^2020.9.6",
     "@videojs/themes": "^1.0.1",
+    "adm-zip": "^0.5.10",
     "ahooks": "^3.7.7",
     "classnames": "^2.3.2",
     "electron-better-ipc": "^2.0.1",
