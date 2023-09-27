@@ -20,7 +20,6 @@
     "build:mac": "npm run clean && electron-vite build && electron-builder --mac --config electron-builder-config.js",
     "build:linux": "npm run clean && electron-vite build && electron-builder --linux --config electron-builder-config.js"
   },
-  "type":"module",
   "dependencies": {
     "@electron-toolkit/preload": "^1.0.3",
     "@electron-toolkit/utils": "^1.0.2",

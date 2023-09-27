@@ -39,9 +39,7 @@ jobs:
         # 安装 pnpm
         # 安装项目依赖
         # 构建 mac 安装包
-        run: | 
-          pnpm install
-          pnpm run build:mac
+        run: pnpm run build:mac
 
       # 上传构建产物到中转服务器
       - uses: actions/upload-artifact@v3
@@ -70,9 +68,7 @@ jobs:
           node macUnzip.js
 
       - name: Build
-        run: |
-          pnpm install
-          pnpm run build:win
+        run: pnpm run build:win
 
       - uses: actions/upload-artifact@v3
         with:

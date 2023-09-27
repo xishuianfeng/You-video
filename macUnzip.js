@@ -1,4 +1,4 @@
-import AdmZip from 'adm-zip';
+AdmZip = require('adm-zip');
 
 //mac unzip ffmpeg
 const admzipFfprobe = new AdmZip('./assets/ffprobe-universal.zip');
