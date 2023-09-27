@@ -28,7 +28,7 @@ jobs:
       # 开始解压
       - name: unzip
         # 解压ffmpeg
-        run: node ../../macUnzip.js
+        run: node macUnzip.js
 
       # 开始构建
       - name: Build
@@ -60,7 +60,7 @@ jobs:
           node-version: '16'
 
       - name: unzip
-        run: node ../../windowsUnzip.js
+        run: node windowsUnzip.js
 
       - name: Build
         run: |
