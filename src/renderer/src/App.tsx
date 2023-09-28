@@ -36,7 +36,6 @@ const App: FC<PropsWithChildren> = ({ children }) => {
       location.pathname === '/video/player' &&
       previousLocation?.pathname.search('/playlist-detail/') === 0
     ) {
-      console.log(1);
       if (peerStore.dataConnection) {
         peerStore.dataConnection.send(JSON.stringify({
           type: 'goPlayer'
@@ -46,7 +45,6 @@ const App: FC<PropsWithChildren> = ({ children }) => {
       previousLocation?.pathname === '/video/player' &&
       location.pathname.search('/playlist-detail/') === 0
     ) {
-      console.log(2);
       if (peerStore.dataConnection) {
         peerStore.dataConnection.send(JSON.stringify({
           type: 'leavePlayer'
