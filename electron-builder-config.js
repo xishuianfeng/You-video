@@ -93,7 +93,7 @@ const config = {
     provider: 'generic',
     url: 'https://example.com/auto-updates',
   },
-  electronVersion: '22.3.13',
+  electronVersion: '24.0.0',
 }
 
 module.exports = config
