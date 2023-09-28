@@ -65,7 +65,7 @@ jobs:
           npm i -g pnpm
           pnpm install
           pnpm install adm-zip
-          node macUnzip.js
+          node windowsUnzip.js
 
       - name: Build
         run: pnpm run build:win
