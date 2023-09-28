@@ -35,7 +35,7 @@ export function createWindow(options?: { devUrl?: string, url?: string }) {
     win.show()
   })
 
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   win.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
