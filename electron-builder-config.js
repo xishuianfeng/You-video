@@ -29,7 +29,7 @@ const config = {
   asarUnpack: ['resources/*'],
   afterSign: 'build/notarize.js',
   win: {
-    executableName: 'video-player',
+    executableName: 'You-video-player',
     extraResources: [
       {
         from: 'resources/ffmpeg-binaries/ffmpeg.exe',
@@ -46,6 +46,9 @@ const config = {
     shortcutName: '${productName}',
     uninstallDisplayName: '${productName}',
     createDesktopShortcut: 'always',
+    installerIcon: "./resources/logo.ico" ,
+    uninstallerIcon:'./resources/logo.ico',
+    installerHeaderIcon:'./resources/logo.ico'
   },
   mac: {
     target: {

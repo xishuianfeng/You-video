@@ -5,7 +5,7 @@ import { AppMiddleware } from './middlewares/types'
 import protocolMiddleware from './middlewares/protocol'
 import mainWindowMiddleware from './middlewares/mainWindow'
 import { createWindow } from './utils/window'
-import electronDebug from 'electron-debug'
+// import electronDebug from 'electron-debug'
 // import devWindowMiddleware from './middlewares/devWindow'
 
 
@@ -22,9 +22,9 @@ applyMiddleware(protocolMiddleware)
 applyMiddleware(mainWindowMiddleware)
 // applyMiddleware(devWindowMiddleware)
 
-if (is.dev) {
-  electronDebug()
-}
+// if (is.dev) {
+//   electronDebug()
+// }
 
 
 // This method will be called when Electron has finished

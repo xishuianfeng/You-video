@@ -1,4 +1,4 @@
-import { app, protocol, shell } from "electron";
+import { app, protocol } from "electron";
 import { AppMiddleware } from "./types";
 import path from "path";
 import fsExtra from 'fs-extra'
@@ -14,7 +14,7 @@ fsExtra
     }
   })
   .finally(() => {
-    shell.openPath(thumbnailOutputDir)
+    // shell.openPath(thumbnailOutputDir)
   })
 
 const protocolMiddleware: AppMiddleware = {
