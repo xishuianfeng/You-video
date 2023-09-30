@@ -19,6 +19,7 @@ export function createWindow(options?: { devUrl?: string, url?: string }) {
   const win = new BrowserWindow({
     width: 900,
     height: 600,
+    icon: path.join(__dirname, '../../resources/logo.png'),
     show: false,
     autoHideMenuBar: true,
     titleBarOverlay: false,
