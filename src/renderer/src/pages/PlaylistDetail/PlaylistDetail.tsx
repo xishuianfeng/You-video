@@ -19,9 +19,6 @@ const PlaylistDetail: React.FunctionComponent<IProps> = () => {
   useAsyncEffect(async () => {
     if (!folderPath) { return }
 
-    const playlistDetail = playlistStore.playlists[folderPath]
-    if (playlistDetail) { return }
-
     const playlist = await window.api.fileIpc.emitGetPlaylistAt({ folderPath })
 
     if (playlist === null) { return }
@@ -69,12 +66,12 @@ const PlaylistDetail: React.FunctionComponent<IProps> = () => {
                   })
                 })
               }}
-              className={`video-item ${index === animateElementIndexStore.playlistIndex
-                ? 'fileAnimate'
-                : undefined}`}
+              className={`video-item`}
               key={file.filename}>
               <img
-                className='video-thumbnail'
+                className={`video-thumbnail ${index === animateElementIndexStore.playlistIndex
+                  ? 'fileAnimate'
+                  : undefined}`}
                 src={`thumbnail://${encodeURIComponent(
                   file.path ?? '',
                 )}?${new URLSearchParams({ timestamp: JSON.stringify(['50%']) })}`}

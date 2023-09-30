@@ -44,13 +44,6 @@ body::-webkit-scrollbar {
   display: none; //Chorme
 }
 
-body {
-  width: calc(100vw + 18px); //Firefox
-  height: 100%; //Firefox
-  -ms-overflow-style: none; //IE
-  overflow: auto; //Firefox
-}
-
 .i-icon {
   display: inline-flex;
   align-items: center;

@@ -1,4 +1,4 @@
-import { app, protocol } from "electron";
+import { app, protocol, shell } from "electron";
 import { AppMiddleware } from "./types";
 import path from "path";
 import fsExtra from 'fs-extra'
@@ -13,9 +13,9 @@ fsExtra
       return
     }
   })
-// .finally(() => {
-//   shell.openPath(thumbnailOutputDir)
-// })
+  .finally(() => {
+    shell.openPath(thumbnailOutputDir)
+  })
 
 const protocolMiddleware: AppMiddleware = {
   when: 'all',
@@ -54,6 +54,9 @@ const protocolMiddleware: AppMiddleware = {
           timestamps,
           filename: '%f'
         }).then(() => {
+          callback({
+            path: outputFilePath,
+          })
         }).catch(() => {
           callback('')
         })

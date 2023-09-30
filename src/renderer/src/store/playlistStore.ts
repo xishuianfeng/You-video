@@ -51,7 +51,7 @@ const usePlaylistStore = create(
           if (!newPlaylist.folderPath) {
             return
           }
-          store.playlists[newPlaylist.folderPath] = (newPlaylist)
+          store.playlists[newPlaylist.folderPath] = newPlaylist
         })
       },
 
