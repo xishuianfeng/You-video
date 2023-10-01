@@ -39,9 +39,8 @@ const PlaylistDetail: React.FunctionComponent<IProps> = () => {
 
   return (
     <div className='playlist-detail'>
-      <NavigationBar />
+      <NavigationBar barText={folderPath} style={{ viewTransitionName: 'playlistLocation' }} />
       <div className='playlist-top'></div>
-      <h1 className='folder-path'>{pathParams.folderPath}</h1>
       <div className='playlist'>
         {[...files].sort((a, b) => {
           const afileName = a.filename ?? ''

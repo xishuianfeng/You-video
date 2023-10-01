@@ -30,7 +30,7 @@ const Home: React.FunctionComponent<IProps> = () => {
 
   return (
     <div className='home'>
-      <NavigationBar backButtonVisible={false} />
+      <NavigationBar backButtonVisible={false} barText='侑影音，可分享的视频播放器' />
       <div className='home-wrapper'>
         <div className='home-left'>
           <img className='logo' src={logo} />

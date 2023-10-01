@@ -48,8 +48,8 @@ const Player: FC = () => {
     }
     peer.on?.('call', listener)
     return () => {
+      connection?.close()
       peer.off?.('call', listener)
-      connection.close()
     }
   }, [])
 

@@ -9,6 +9,7 @@ interface IProps {
   backButtonVisible?: boolean
   extra?: ReactNode
   router?: string
+  barText?: string
 }
 
 const NavigationBar: React.FunctionComponent<IProps> = (props) => {
@@ -16,6 +17,7 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
     backButton = <Left style={{ fontSize: 20 }} fill="#65c7bf" />,
     style,
     backButtonVisible = true,
+    barText,
   } = props
   const [opacity] = useState(1)
 
@@ -40,11 +42,11 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
           >
             {backButton}
           </div>) : <div></div>}
-        <div className='nav-bar-text'>
-          侑影音，可分享的视频播放器
+        <div className='nav-bar-text' >
+          {barText ? barText : ''}
+
         </div>
       </div>
-
       <div
         className='close-button'
         onClick={() => { window.api.appIpc.emitCloseWindow() }}
