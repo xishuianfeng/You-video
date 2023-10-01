@@ -88,11 +88,12 @@ const Follower: React.FunctionComponent<IProps> = () => {
 
   return (
     <div className='follower'>
-      <div className='container' ref={wrapperRef}>        {isFullscreen
-        ? ''
-        : <div className='nav-wrapper'>
-          <NavigationBar />
-        </div>}
+      <div className='container' ref={wrapperRef}>
+        {isFullscreen
+          ? ''
+          : <div className='nav-wrapper'>
+            <NavigationBar />
+          </div>}
 
 
         <video
