@@ -38,7 +38,9 @@ const Player: FC = () => {
 
   //  Peer监听 on 和 off
   useEffect(() => {
+    let connection: MediaConnection
     const listener = (call: MediaConnection) => {
+      connection = call
       const stream = videoRef.current?.captureStream()
       if (stream) {
         call.answer(stream)
@@ -47,6 +49,7 @@ const Player: FC = () => {
     peer.on?.('call', listener)
     return () => {
       peer.off?.('call', listener)
+      connection.close()
     }
   }, [])
 
@@ -269,15 +272,15 @@ const Player: FC = () => {
                   setShareModalVisible(true)
                 }}
               >
-                <ShareOne className='icon' theme="outline" size="24" fill="#95979d" />
+                <ShareOne className='icon' theme="outline" size="24" fill="#fff" />
               </button>
               : <div className="left-buttons" />
             }
 
             <button onClick={() => togglePlayState()}>
               {videoRef.current?.paused
-                ? <PlayOne className='icon' theme="outline" size="24" fill="#95979d" />
-                : <Pause className='icon' theme="outline" size="24" fill="#95979d" />}
+                ? <PlayOne className='icon' theme="outline" size="24" fill="#fff" />
+                : <Pause className='icon' theme="outline" size="24" fill="#fff" />}
             </button>
 
             <div
@@ -336,7 +339,7 @@ const Player: FC = () => {
             <button
               onClick={() => { setSubtitleFileVisible(true) }}
             >
-              <List className='icon' theme="two-tone" size="24" fill={['#95979d', '#2F88FF']} />
+              <List className='icon' theme="two-tone" size="24" fill={['#fff', '#fff']} />
             </button>
 
 
@@ -345,7 +348,7 @@ const Player: FC = () => {
                 toggleFullscreen()
               }}
             >
-              <FullScreenOne className='icon' theme="two-tone" size="24" fill={['#95979d', '#2F88FF']} />
+              <FullScreenOne className='icon' theme="two-tone" size="24" fill={['#fff', '#fff']} />
             </button>
 
           </div>
