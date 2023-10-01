@@ -5,6 +5,7 @@ import { AppMiddleware } from './middlewares/types'
 import protocolMiddleware from './middlewares/protocol'
 import mainWindowMiddleware from './middlewares/mainWindow'
 import { createWindow } from './utils/window'
+
 // import electronDebug from 'electron-debug'
 // import devWindowMiddleware from './middlewares/devWindow'
 

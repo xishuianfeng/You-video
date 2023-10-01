@@ -99,15 +99,25 @@
   padding: 10px;
 }
 
-.modalButton {
-  cursor: pointer;
-  margin-top: 10px;
-  background-color: lightcyan;
-  margin-right: 10px;
-  padding: 5px;
+.modal-bottom {
+  display: flex;
+  align-items: center;
 
-  &:hover {
-    background-color: #aaa;
+  .modal-text {
+    margin-top: 10px;
+    color: #000;
+  }
+
+  .modalButton {
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: lightcyan;
+    margin-right: 10px;
+    padding: 5px;
+
+    &:hover {
+      background-color: #aaa;
+    }
   }
 }
 

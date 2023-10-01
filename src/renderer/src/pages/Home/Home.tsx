@@ -139,7 +139,8 @@ const Home: React.FunctionComponent<IProps> = () => {
             setRemotePeerId(peerId)
           }}
         />
-        <div>
+
+        <div className='modal-bottom'>
           <button
             className='modalButton'
             onClick={() => {
@@ -167,6 +168,8 @@ const Home: React.FunctionComponent<IProps> = () => {
           >
             取消
           </button>
+          <p className='modal-text'>双击可切换全屏/非全屏哦。</p>
+
         </div>
       </Modal>
     </div>
