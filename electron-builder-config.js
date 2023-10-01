@@ -7,7 +7,7 @@ const config = {
     buildResources: 'build',
   },
   appId: 'com.peer-video-player.app',
-  productName: 'peer-video-player',
+  productName: 'You-video-player',
   files: {
     filter: [
       '!**/.vscode/*',
