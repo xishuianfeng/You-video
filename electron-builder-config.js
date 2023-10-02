@@ -28,7 +28,7 @@ const config = {
   },
   asarUnpack: ['resources/*'],
   afterSign: 'build/notarize.js',
-  icon: './resources/logo.ico',
+  icon: './resources/logo.png',
   win: {
     executableName: 'You-video-player',
     target: 'nsis',
