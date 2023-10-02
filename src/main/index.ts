@@ -18,6 +18,8 @@ const applyMiddleware = ({ apply, when }: AppMiddleware) => {
   }
 }
 
+app.setUserTasks([])
+
 applyMiddleware(ipcMiddleware)
 applyMiddleware(protocolMiddleware)
 applyMiddleware(mainWindowMiddleware)

@@ -6,7 +6,7 @@ const config = {
     output: 'dist',
     buildResources: 'build',
   },
-  appId: 'com.You-video-player.app',
+  appId: 'com.peer-video-player.app',
   productName: 'You-video-player',
   files: {
     filter: [
@@ -32,6 +32,7 @@ const config = {
   win: {
     executableName: 'You-video-player',
     target: 'nsis',
+    icon: './resources/logo.ico',
     extraResources: [
       {
         from: 'resources/ffmpeg-binaries/ffmpeg.exe',
