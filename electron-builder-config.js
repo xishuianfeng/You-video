@@ -6,7 +6,7 @@ const config = {
     output: 'dist',
     buildResources: 'build',
   },
-  appId: 'com.peer-video-player.app',
+  appId: 'com.You-video-player.app',
   productName: 'You-video-player',
   files: {
     filter: [
@@ -28,10 +28,10 @@ const config = {
   },
   asarUnpack: ['resources/*'],
   afterSign: 'build/notarize.js',
+  icon: './resources/logo.ico',
   win: {
     executableName: 'You-video-player',
     target: 'nsis',
-    icon: './resources/logo.ico',
     extraResources: [
       {
         from: 'resources/ffmpeg-binaries/ffmpeg.exe',
