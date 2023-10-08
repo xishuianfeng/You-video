@@ -6,8 +6,8 @@ import protocolMiddleware from './middlewares/protocol'
 import mainWindowMiddleware from './middlewares/mainWindow'
 import { createWindow } from './utils/window'
 
-// import electronDebug from 'electron-debug'
-// import devWindowMiddleware from './middlewares/devWindow'
+import electronDebug from 'electron-debug'
+import devWindowMiddleware from './middlewares/devWindow'
 
 
 const applyMiddleware = ({ apply, when }: AppMiddleware) => {
@@ -21,11 +21,11 @@ const applyMiddleware = ({ apply, when }: AppMiddleware) => {
 applyMiddleware(ipcMiddleware)
 applyMiddleware(protocolMiddleware)
 applyMiddleware(mainWindowMiddleware)
-// applyMiddleware(devWindowMiddleware)
+applyMiddleware(devWindowMiddleware)
 
-// if (is.dev) {
-//   electronDebug()
-// }
+if (is.dev) {
+  electronDebug()
+}
 
 
 // This method will be called when Electron has finished
@@ -33,7 +33,7 @@ applyMiddleware(mainWindowMiddleware)
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('peer-video-player')
+  electronApp.setAppUserModelId('You-video-player')
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

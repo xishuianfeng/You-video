@@ -13,7 +13,7 @@ const Follower: React.FunctionComponent<IProps> = () => {
   const [params, setSearchParams] = useSearchParams()
   const peerStore = usePeerStore()
   const serachParams = Object.fromEntries(params) as { remotePeerId: string }
-  const remotePeerId = serachParams.remotePeerId
+  const serachRemotePeerId = serachParams.remotePeerId
   const videoRef = useRef<
     HTMLVideoElement & { captureStream: HTMLCanvasElement['captureStream'] }
   >(null!)
@@ -47,6 +47,7 @@ const Follower: React.FunctionComponent<IProps> = () => {
   })
 
   const receptionJSON = () => {
+    const remotePeerId = serachRemotePeerId.replace(/.*(?<==)/, '')
     const connection = peer.connect(remotePeerId)
     peerStore.setDataConnection(connection)
     connection.on('data', (data) => {
@@ -75,6 +76,7 @@ const Follower: React.FunctionComponent<IProps> = () => {
 
   useEffect(() => {
     receptionJSON()
+    const remotePeerId = serachRemotePeerId.replace(/.*(?<==)/, '')
     connectPeer(remotePeerId)
       .then(() => {
         setSearchParams((prev) => {

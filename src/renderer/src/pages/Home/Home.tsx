@@ -133,6 +133,7 @@ const Home: React.FunctionComponent<IProps> = () => {
         <input
           className='remote-peer-id-input'
           type='text'
+          placeholder="请输入分享链接"
           value={remotePeerId}
           onChange={(event) => {
             const peerId = event.target.value

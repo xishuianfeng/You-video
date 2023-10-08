@@ -360,23 +360,11 @@ const Player: FC = () => {
         isOpen={shareModalVisible}
         shouldCloseOnEsc={true}
       >
-        <div className='share-title'>复制id或链接，将当前画面分享给ta。</div>
         <div>
-          id：{peerStore.localPeerId}
-          <CopyToClipboard
-            text={peerStore.localPeerId}
-            onCopy={() => {
-              setShareModalVisible(false)
-            }}
-          >
-            <button
-              className='copy-button'>
-              点击复制
-            </button>
-          </CopyToClipboard>
-        </div>
-        <div>
-          链接：https://you-video.netlify.app?remotePeerId={peerStore.localPeerId}
+          <p>
+            对方可在浏览器或应用程序中的加入视频功能进行观看哦~
+          </p>
+          分享链接：https://you-video.netlify.app?remotePeerId={peerStore.localPeerId}
           <CopyToClipboard
             text={`https://you-video.netlify.app?remotePeerId=${peerStore.localPeerId}`}
             onCopy={() => {

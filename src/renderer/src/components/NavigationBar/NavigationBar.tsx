@@ -22,12 +22,14 @@ const NavigationBar: React.FunctionComponent<IProps> = (props) => {
   const [opacity] = useState(1)
 
   const navigate = useNavigate()
+  const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
 
   return (
     <div className="navigation-bar" style={{ opacity, ...style }}>
       <div className='nav-left'>
         {backButtonVisible ? (
           <div
+            style={isMac ? { marginLeft: '90px' } : {}}
             className="back-button"
             onClick={() => {
               document.startViewTransition(() => {
