@@ -6,8 +6,8 @@ import protocolMiddleware from './middlewares/protocol'
 import mainWindowMiddleware from './middlewares/mainWindow'
 import { createWindow } from './utils/window'
 
-import electronDebug from 'electron-debug'
-import devWindowMiddleware from './middlewares/devWindow'
+// import electronDebug from 'electron-debug'
+// import devWindowMiddleware from './middlewares/devWindow'
 
 
 const applyMiddleware = ({ apply, when }: AppMiddleware) => {
@@ -21,11 +21,11 @@ const applyMiddleware = ({ apply, when }: AppMiddleware) => {
 applyMiddleware(ipcMiddleware)
 applyMiddleware(protocolMiddleware)
 applyMiddleware(mainWindowMiddleware)
-applyMiddleware(devWindowMiddleware)
+// applyMiddleware(devWindowMiddleware)
 
-if (is.dev) {
-  electronDebug()
-}
+// if (is.dev) {
+//   electronDebug()
+// }
 
 
 // This method will be called when Electron has finished
